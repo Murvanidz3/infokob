@@ -3,7 +3,7 @@ name: Deploy to Hostinger
 on:
   push:
     branches:
-      - main
+      - main   # თუ master იყენებ, შეცვალე
 
 jobs:
   deploy:
@@ -13,12 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy files to Hostinger via FTP
+      - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: 46.202.156.131
-          username: u888090391.infokobuleti.com
-          password: Cameti31!
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
           server-dir: /public_html/
