@@ -8,10 +8,15 @@ class LanguageController
     {
         $code = isset($params['code']) ? strtolower((string) $params['code']) : DEFAULT_LANG;
         Language::set($code);
-        $ref = $_SERVER['HTTP_REFERER'] ?? (BASE_URL . '/');
-        if (!is_string($ref) || !str_starts_with($ref, BASE_URL)) {
-            $ref = BASE_URL . '/';
+        $ref = isset($_SERVER['HTTP_REFERER']) ? (string) $_SERVER['HTTP_REFERER'] : '';
+        $fallback = rtrim(PUBLIC_BASE_URL, '/') . '/';
+        $host = isset($_SERVER['HTTP_HOST']) ? strtolower((string) $_SERVER['HTTP_HOST']) : '';
+        $refHost = $ref !== '' ? parse_url($ref, PHP_URL_HOST) : null;
+        $refHost = is_string($refHost) ? strtolower($refHost) : '';
+        if ($ref !== '' && $host !== '' && $refHost === $host && str_starts_with($ref, 'http')) {
+            Helpers::redirect($ref);
+            return;
         }
-        Helpers::redirect($ref);
+        Helpers::redirect($fallback);
     }
 }
