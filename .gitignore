@@ -1,0 +1,26 @@
+# Local secrets (copy from db.local.php.example)
+/config/db.local.php
+
+# User uploads
+/uploads/*
+!/uploads/.gitkeep
+
+# Cache / logs
+/storage/cache/*
+!/storage/cache/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+
+# OS / IDE
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Env (if added later)
+.env
+.env.*

@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteBase /
+
+# Block direct HTTP access to application internals (static files under /public are still allowed)
+RewriteRule ^(config|app|lang|views|install|storage|bootstrap\.php)(/|$) - [F,L]
+
+# Serve existing files and directories directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Admin panel
+RewriteRule ^admin(?:/.*)?$ admin/index.php [QSA,L]
+
+# Public front controller
+RewriteRule ^ index.php [QSA,L]
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|woff2?|ttf|eot|svg|png|jpg|jpeg|gif|webp|ico)$">
+        Header set Cache-Control "max-age=604800, public"
+    </FilesMatch>
+</IfModule>
