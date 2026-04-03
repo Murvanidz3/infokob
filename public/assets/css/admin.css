@@ -4,6 +4,7 @@
   min-height: 100vh;
   background: #0f172a;
   color: #e2e8f0;
+  font-family: var(--font, "Main Font", system-ui, sans-serif);
 }
 
 .admin-shell {

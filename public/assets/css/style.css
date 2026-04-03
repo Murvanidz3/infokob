@@ -1,4 +1,12 @@
 /* InfoKobuleti — mobile-first public layout */
+@font-face {
+  font-family: "Main Font";
+  src: url("../../fonts/font.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --primary: #2563eb;
   --accent: #f59e0b;
@@ -10,7 +18,7 @@
   --white: #fff;
   --shadow: 0 10px 40px rgba(30, 41, 59, 0.08);
   --radius: 8px;
-  --font: "Inter", system-ui, -apple-system, sans-serif;
+  --font: "Main Font", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 *,

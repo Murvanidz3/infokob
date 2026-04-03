@@ -12,9 +12,6 @@ $lang = Language::get();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Helpers::e($meta['title'] ?? '') ?></title>
     <meta name="description" content="<?= Helpers::e($meta['description'] ?? '') ?>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/style.css')) ?>">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/components.css')) ?>">

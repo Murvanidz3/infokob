@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/bootstrap.php';
 
-header('Content-Security-Policy: default-src \'self\'; script-src \'self\' https://cdn.jsdelivr.net https://unpkg.com https://maps.googleapis.com \'unsafe-inline\'; style-src \'self\' https://fonts.googleapis.com https://unpkg.com \'unsafe-inline\'; font-src \'self\' https://fonts.gstatic.com data:; img-src \'self\' data: https: blob:; connect-src \'self\' https://maps.googleapis.com; frame-ancestors \'self\'; base-uri \'self\'; form-action \'self\'');
+header('Content-Security-Policy: default-src \'self\'; script-src \'self\' https://cdn.jsdelivr.net https://unpkg.com https://maps.googleapis.com \'unsafe-inline\'; style-src \'self\' https://unpkg.com \'unsafe-inline\'; font-src \'self\' https://unpkg.com data:; img-src \'self\' data: https: blob:; connect-src \'self\' https://maps.googleapis.com; frame-ancestors \'self\'; base-uri \'self\'; form-action \'self\'');
 
 ob_start();
 session_name(SESSION_NAME);

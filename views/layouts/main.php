@@ -18,9 +18,6 @@ $lang = Language::get();
     <meta property="og:description" content="<?= Helpers::e($meta['description'] ?? '') ?>">
     <meta property="og:image" content="<?= Helpers::e($meta['og_image'] ?? '') ?>">
     <meta property="og:type" content="website">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/style.css')) ?>">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/components.css')) ?>">
