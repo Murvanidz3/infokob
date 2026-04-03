@@ -156,7 +156,44 @@ Restrict the key by HTTP referrer to your production domain in Google Cloud Cons
 
 ---
 
-## 11. GitHub deployment
+## 11. GitHub Actions → Hostinger (FTP)
+
+The repo includes `.github/workflows/deploy.yml`. It:
+
+1. Runs **`scripts/write-db-config.php`** so **`config/db.local.php` exists on the server** (this file is gitignored and is **not** in the repo — without it, production falls back to dev DB defaults and the site will error).
+2. Uploads the project over **FTP**, excluding `uploads/` and `storage/cache/` so user uploads and cache on the server are not wiped by sync.
+
+### Required GitHub Actions secrets
+
+| Secret | Typical value |
+|--------|----------------|
+| `FTP_SERVER` | FTP hostname from hPanel (e.g. `ftp.yourdomain.com`) |
+| `FTP_USERNAME` | FTP user |
+| `FTP_PASSWORD` | FTP password |
+| `FTP_SERVER_DIR` | Remote path to **document root** — often `/public_html/` or `/domains/yourdomain/public_html/` (must contain `index.php` after deploy) |
+| `DB_HOST` | Usually `127.0.0.1` (see Hostinger MySQL connection details) |
+| `DB_NAME` | Full database name including prefix |
+| `DB_USER` | MySQL username |
+| `DB_PASSWORD` | MySQL password |
+
+If you already use a custom `deploy.yml`, add the **“Write config/db.local.php”** step **before** your FTP/upload step, using the same env vars as in this repo’s workflow.
+
+### One-time: import the database (still required)
+
+FTP cannot create MySQL tables. In **hPanel → Databases → phpMyAdmin**:
+
+1. Select your database.
+2. **Import** → choose `install/database.sql` from your machine (or from the repo) → Go.
+
+Until this is done, any page that queries the DB (including the **homepage**) will fail.
+
+### After first successful deploy
+
+- In **File Manager**, ensure **`uploads/`** exists and is writable (755 or 775) so image uploads work.
+- **PHP 8.1+** and extensions `pdo_mysql`, `gd`, `mbstring`, `fileinfo` in hPanel.
+- Change the seed admin password (`install/database.sql` comments).
+
+### Manual deploy (no Actions)
 
 ```bash
 git clone https://github.com/Murvanidz3/infokob.git .
@@ -179,6 +216,7 @@ On **shared hosting without shell**, use ZIP upload + File Manager instead of `g
 | Images 404 | `uploads/` permissions; `PUBLIC_BASE_URL` wrong only if rewriting/domain is wrong |
 | Admin redirects to `/login` | Not logged in or wrong account; need `role = admin` |
 | Session lost between `/` and `/admin` | Cookie path/domain; HTTPS mixed content; same site URL for both |
+| Blank / 500 after FTP deploy from GitHub | Missing **`config/db.local.php`** on server (add CI step or create file manually); or **database not imported**; wrong **`FTP_SERVER_DIR`** (files not in document root) |
 
 ---
 

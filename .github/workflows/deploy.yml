@@ -1,20 +1,37 @@
+# Deploy to Hostinger (FTP) + inject MySQL credentials from GitHub Secrets.
+#
+# Repository secrets (Settings → Secrets and variables → Actions):
+#   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
+#   DB_HOST, DB_NAME, DB_USER, DB_PASSWORD  → written to config/db.local.php (file is gitignored)
+#
+# If your FTP root is not public_html, change server-dir below (e.g. /domains/yourdomain/public_html/).
+#
+# One-time on Hostinger: import install/database.sql via phpMyAdmin.
+
 name: Deploy to Hostinger
 
 on:
   push:
     branches:
-      - main   # თუ master იყენებ, შეცვალე
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Write config/db.local.php from secrets
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASSWORD }}
+        run: php scripts/write-db-config.php
 
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -22,3 +39,10 @@ jobs:
           protocol: ftp
           port: 21
           server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/uploads/**
+            **/storage/cache/**
+            **/storage/logs/**
+          log-level: verbose
