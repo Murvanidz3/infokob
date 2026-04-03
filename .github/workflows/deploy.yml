@@ -5,6 +5,8 @@
 #   DB_HOST, DB_NAME, DB_USER, DB_PASSWORD  → written to config/db.local.php (file is gitignored)
 #
 # If your FTP root is not public_html, change server-dir below (e.g. /domains/yourdomain/public_html/).
+# FTP_SERVER must be the hostname from hPanel → Files → FTP Accounts (e.g. ftp.yourdomain.com), not the website URL alone.
+# If deploy still times out: try changing protocol to ftp (some accounts use plain FTP) or ftps-legacy.
 #
 # One-time on Hostinger: import install/database.sql via phpMyAdmin.
 
@@ -36,8 +38,10 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
           port: 21
+          timeout: 180000
+          security: loose
           server-dir: /public_html/
           exclude: |
             **/.git*

@@ -217,6 +217,7 @@ On **shared hosting without shell**, use ZIP upload + File Manager instead of `g
 | Admin redirects to `/login` | Not logged in or wrong account; need `role = admin` |
 | Session lost between `/` and `/admin` | Cookie path/domain; HTTPS mixed content; same site URL for both |
 | Blank / 500 after FTP deploy from GitHub | Missing **`config/db.local.php`** on server (add CI step or create file manually); or **database not imported**; wrong **`FTP_SERVER_DIR`** (files not in document root) |
+| GitHub Action **Timeout (control socket)** / FTP connect failed | Use **`FTP_SERVER`** from hPanel → **FTP Accounts** (hostname like `ftp.yourdomain.com`). Workflow uses **`ftps`** + **`timeout: 180000`**. If it still fails, edit `.github/workflows/deploy.yml`: try **`protocol: ftp`** or **`ftps-legacy`**. If only **SFTP** (SSH) is available, this action will not work — use Hostinger file manager, SFTP action, or enable classic FTP in hPanel. |
 
 ---
 
