@@ -150,8 +150,15 @@ Admin does **not** use a separate admin login route.
 
 ---
 
+## Git & deploy workflow (Hostinger)
+
+- **After every meaningful code or asset change:** commit and **`git push origin main`** so the site stays in sync with the repo.
+- Pushing to **`main`** triggers **`.github/workflows/deploy.yml`** (FTP + `db.local.php` from secrets) — no push means production does not update.
+- Typical sequence: `git add -A` → `git commit -m "…"` → `git pull origin main --rebase` (if needed) → `git push origin main`.
+- Do **not** commit `config/db.local.php`, user uploads, or cache (see above).
+
+---
+
 ## Testing hints
 
 - Mobile width ~375px, three languages, empty states, CSRF tampering, wrong user edit URL, guest `/admin`, non-admin `/admin`, image oversize / bad type.
-
-after making changes make push to git 
