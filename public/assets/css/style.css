@@ -1603,3 +1603,261 @@ a:hover {
 .user-page--narrow {
   max-width: 480px;
 }
+
+/* Guide / directory pages (hotels, transport, classifieds, etc.) */
+.guide-page {
+  padding: 1.5rem 1rem 3.5rem;
+}
+
+.guide-demo-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #78350f;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  margin: 0 0 1.25rem;
+  border: 1px solid #fcd34d;
+}
+
+.guide-section-title {
+  font-size: 1.2rem;
+  margin: 2rem 0 1rem;
+  font-weight: 700;
+}
+
+.guide-card-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .guide-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .guide-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+.guide-card {
+  background: var(--white);
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-card__media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.guide-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.guide-card__body {
+  padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.guide-card__title {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.guide-card__text {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.guide-card__text:last-child {
+  margin-bottom: 0;
+}
+
+.guide-bank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.guide-bank-block {
+  background: var(--white);
+  padding: 1.25rem 1.35rem;
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--primary);
+}
+
+.guide-bank-block__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.guide-bank-block__text {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.guide-transport-block {
+  background: var(--white);
+  padding: 1.25rem;
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.guide-transport-block__route {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.guide-time-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.guide-time-chip {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  background: #eff6ff;
+  color: #1e40af;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+}
+
+.guide-transport-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.guide-train-intro {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 1rem;
+}
+
+.guide-table-wrap {
+  overflow-x: auto;
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow);
+  background: var(--white);
+}
+
+.guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.guide-table th,
+.guide-table td {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.guide-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.guide-form-card {
+  background: var(--white);
+  padding: 1.35rem 1.5rem;
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow);
+  margin: 1.5rem 0 2rem;
+  max-width: 560px;
+}
+
+.guide-form-card__title {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.guide-auth-hint {
+  margin: 1rem 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+.guide-seeker-list,
+.guide-job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.guide-seeker-card,
+.guide-job-card {
+  background: var(--white);
+  padding: 1.15rem 1.25rem;
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow);
+  border: 1px solid #e2e8f0;
+}
+
+.guide-seeker-card--user,
+.guide-job-card--user {
+  border-color: #93c5fd;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+}
+
+.guide-seeker-card__role,
+.guide-job-card__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.guide-job-card__company {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+
+.guide-seeker-card__meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.guide-seeker-card__body,
+.guide-job-card__body {
+  margin: 0 0 0.65rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.guide-seeker-card__phone,
+.guide-job-card__phone {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}

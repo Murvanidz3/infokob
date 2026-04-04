@@ -10,15 +10,15 @@ $lang = Language::get();
 
 $categoryCards = [
     ['key' => 'home_cat_real_estate', 'href' => '/listings', 'icon' => '🏠', 'tone' => 'indigo'],
-    ['key' => 'home_cat_classifieds', 'href' => '/listings', 'icon' => '📋', 'tone' => 'amber'],
-    ['key' => 'home_cat_jobs', 'href' => '/contact', 'icon' => '💼', 'tone' => 'emerald'],
-    ['key' => 'home_cat_hotels', 'href' => '/contact', 'icon' => '🛎️', 'tone' => 'rose'],
-    ['key' => 'home_cat_restaurants', 'href' => '/contact', 'icon' => '🍽️', 'tone' => 'violet'],
-    ['key' => 'home_cat_entertainment', 'href' => '/contact', 'icon' => '🎭', 'tone' => 'cyan'],
-    ['key' => 'home_cat_wellness', 'href' => '/contact', 'icon' => '✨', 'tone' => 'orange'],
-    ['key' => 'home_cat_transport', 'href' => '/contact', 'icon' => '🚌', 'tone' => 'sky'],
-    ['key' => 'home_cat_finance', 'href' => '/contact', 'icon' => '💱', 'tone' => 'teal'],
-    ['key' => 'home_cat_beauty', 'href' => '/contact', 'icon' => '💇', 'tone' => 'pink'],
+    ['key' => 'home_cat_classifieds', 'href' => '/classifieds', 'icon' => '📋', 'tone' => 'amber'],
+    ['key' => 'home_cat_jobs', 'href' => '/vacancies', 'icon' => '💼', 'tone' => 'emerald'],
+    ['key' => 'home_cat_hotels', 'href' => '/hotels', 'icon' => '🛎️', 'tone' => 'rose'],
+    ['key' => 'home_cat_restaurants', 'href' => '/restaurants', 'icon' => '🍽️', 'tone' => 'violet'],
+    ['key' => 'home_cat_entertainment', 'href' => '/sights', 'icon' => '🎭', 'tone' => 'cyan'],
+    ['key' => 'home_cat_wellness', 'href' => '/events', 'icon' => '✨', 'tone' => 'orange'],
+    ['key' => 'home_cat_transport', 'href' => '/transport', 'icon' => '🚌', 'tone' => 'sky'],
+    ['key' => 'home_cat_finance', 'href' => '/banks', 'icon' => '💱', 'tone' => 'teal'],
+    ['key' => 'home_cat_beauty', 'href' => '/beauty', 'icon' => '💇', 'tone' => 'pink'],
 ];
 ?>
 <section class="hero hero--with-categories" style="--hero-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80');">
