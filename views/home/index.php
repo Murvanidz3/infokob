@@ -42,6 +42,22 @@ $lang = Language::get();
     </div>
 </section>
 
+<?php
+$categoryCards = [
+    ['key' => 'home_cat_real_estate', 'href' => '/listings', 'icon' => '🏠', 'tone' => 'indigo'],
+    ['key' => 'home_cat_classifieds', 'href' => '/listings', 'icon' => '📋', 'tone' => 'amber'],
+    ['key' => 'home_cat_jobs', 'href' => '/contact', 'icon' => '💼', 'tone' => 'emerald'],
+    ['key' => 'home_cat_hotels', 'href' => '/contact', 'icon' => '🛎️', 'tone' => 'rose'],
+    ['key' => 'home_cat_restaurants', 'href' => '/contact', 'icon' => '🍽️', 'tone' => 'violet'],
+    ['key' => 'home_cat_entertainment', 'href' => '/contact', 'icon' => '🎭', 'tone' => 'cyan'],
+    ['key' => 'home_cat_wellness', 'href' => '/contact', 'icon' => '✨', 'tone' => 'orange'],
+    ['key' => 'home_cat_transport', 'href' => '/contact', 'icon' => '🚌', 'tone' => 'sky'],
+    ['key' => 'home_cat_finance', 'href' => '/contact', 'icon' => '💱', 'tone' => 'teal'],
+    ['key' => 'home_cat_beauty', 'href' => '/contact', 'icon' => '💇', 'tone' => 'pink'],
+];
+View::partial('category-hub', ['categoryCards' => $categoryCards]);
+?>
+
 <section class="section">
     <div class="container">
         <div class="section__head">
