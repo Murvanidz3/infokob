@@ -386,6 +386,37 @@ a:hover {
   margin-inline: auto;
 }
 
+.hero--with-categories {
+  min-height: min(100vh, 920px);
+  padding: 1.5rem 1rem 2.5rem;
+  align-items: center;
+}
+
+.hero--with-categories .hero__subtitle {
+  margin-bottom: 1rem;
+}
+
+/* Real estate search strip (below hero, above stats) */
+.home-search {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 0 2.75rem;
+  background: #f1f5f9;
+}
+
+.home-search__title {
+  text-align: center;
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.home-search .search-hero {
+  max-width: min(52rem, 100%);
+}
+
 /* Stats bar */
 .stats-bar {
   background: var(--white);
@@ -440,6 +471,25 @@ a:hover {
 .category-hub {
   padding-top: 2.5rem;
   padding-bottom: 1rem;
+}
+
+.category-hub--hero {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.category-hub--hero .category-hub__title {
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .category-hub--hero .category-hub__title {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .category-hub__title {

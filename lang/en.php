@@ -20,6 +20,7 @@ return [
     'hero_title' => 'Find your property in Kobuleti',
     'hero_subtitle' => 'Thousands of listings — homes, apartments, land, hotels',
     'home_category_hub_title' => 'Categories',
+    'home_search_section_title' => 'Real estate search',
     'home_cat_real_estate' => 'Real estate',
     'home_cat_classifieds' => 'Classifieds',
     'home_cat_jobs' => 'Jobs',

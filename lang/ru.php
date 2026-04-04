@@ -20,6 +20,7 @@ return [
     'hero_title' => 'Найдите недвижимость в Кобулети',
     'hero_subtitle' => 'Тысячи объявлений — дома, квартиры, участки, отели',
     'home_category_hub_title' => 'Категории',
+    'home_search_section_title' => 'Поиск недвижимости',
     'home_cat_real_estate' => 'Недвижимость',
     'home_cat_classifieds' => 'Объявления',
     'home_cat_jobs' => 'Вакансии',

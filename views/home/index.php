@@ -7,12 +7,32 @@ declare(strict_types=1);
 /** @var array{listings:int,sea:int,users:int,sold:int} $stats */
 /** @var string $heroDeal */
 $lang = Language::get();
+
+$categoryCards = [
+    ['key' => 'home_cat_real_estate', 'href' => '/listings', 'icon' => '🏠', 'tone' => 'indigo'],
+    ['key' => 'home_cat_classifieds', 'href' => '/listings', 'icon' => '📋', 'tone' => 'amber'],
+    ['key' => 'home_cat_jobs', 'href' => '/contact', 'icon' => '💼', 'tone' => 'emerald'],
+    ['key' => 'home_cat_hotels', 'href' => '/contact', 'icon' => '🛎️', 'tone' => 'rose'],
+    ['key' => 'home_cat_restaurants', 'href' => '/contact', 'icon' => '🍽️', 'tone' => 'violet'],
+    ['key' => 'home_cat_entertainment', 'href' => '/contact', 'icon' => '🎭', 'tone' => 'cyan'],
+    ['key' => 'home_cat_wellness', 'href' => '/contact', 'icon' => '✨', 'tone' => 'orange'],
+    ['key' => 'home_cat_transport', 'href' => '/contact', 'icon' => '🚌', 'tone' => 'sky'],
+    ['key' => 'home_cat_finance', 'href' => '/contact', 'icon' => '💱', 'tone' => 'teal'],
+    ['key' => 'home_cat_beauty', 'href' => '/contact', 'icon' => '💇', 'tone' => 'pink'],
+];
 ?>
-<section class="hero" style="--hero-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80');">
+<section class="hero hero--with-categories" style="--hero-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80');">
     <div class="hero__overlay"></div>
     <div class="container hero__content">
         <h1 class="hero__title"><?= Helpers::e(Helpers::__('hero_title')) ?></h1>
         <p class="hero__subtitle"><?= Helpers::e(Helpers::__('hero_subtitle')) ?></p>
+        <?php View::partial('category-hub', ['categoryCards' => $categoryCards, 'variant' => 'hero']); ?>
+    </div>
+</section>
+
+<section class="home-search" aria-labelledby="home-search-title">
+    <div class="container">
+        <h2 id="home-search-title" class="home-search__title"><?= Helpers::e(Helpers::__('home_search_section_title')) ?></h2>
         <?php View::partial('search-bar', ['variant' => 'hero', 'deal' => $heroDeal]); ?>
     </div>
 </section>
@@ -41,22 +61,6 @@ $lang = Language::get();
         </div>
     </div>
 </section>
-
-<?php
-$categoryCards = [
-    ['key' => 'home_cat_real_estate', 'href' => '/listings', 'icon' => '🏠', 'tone' => 'indigo'],
-    ['key' => 'home_cat_classifieds', 'href' => '/listings', 'icon' => '📋', 'tone' => 'amber'],
-    ['key' => 'home_cat_jobs', 'href' => '/contact', 'icon' => '💼', 'tone' => 'emerald'],
-    ['key' => 'home_cat_hotels', 'href' => '/contact', 'icon' => '🛎️', 'tone' => 'rose'],
-    ['key' => 'home_cat_restaurants', 'href' => '/contact', 'icon' => '🍽️', 'tone' => 'violet'],
-    ['key' => 'home_cat_entertainment', 'href' => '/contact', 'icon' => '🎭', 'tone' => 'cyan'],
-    ['key' => 'home_cat_wellness', 'href' => '/contact', 'icon' => '✨', 'tone' => 'orange'],
-    ['key' => 'home_cat_transport', 'href' => '/contact', 'icon' => '🚌', 'tone' => 'sky'],
-    ['key' => 'home_cat_finance', 'href' => '/contact', 'icon' => '💱', 'tone' => 'teal'],
-    ['key' => 'home_cat_beauty', 'href' => '/contact', 'icon' => '💇', 'tone' => 'pink'],
-];
-View::partial('category-hub', ['categoryCards' => $categoryCards]);
-?>
 
 <section class="section">
     <div class="container">

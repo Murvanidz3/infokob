@@ -20,6 +20,7 @@ return [
     'hero_title' => 'იპოვე შენი ქონება ქობულეთში',
     'hero_subtitle' => 'ათასობით განცხადება — სახლები, ბინები, მიწა, სასტუმრო',
     'home_category_hub_title' => 'კატეგორიები',
+    'home_search_section_title' => 'უძრავი ქონების ძებნა',
     'home_cat_real_estate' => 'უძრავი ქონება',
     'home_cat_classifieds' => 'განცხადებები',
     'home_cat_jobs' => 'ვაკანსიები',
