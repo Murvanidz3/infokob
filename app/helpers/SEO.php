@@ -12,7 +12,7 @@ class SEO
         return [
             'title' => Helpers::__('site_name_' . $lang) . ' — InfoKobuleti',
             'description' => Helpers::__('meta_description_default'),
-            'og_image' => Helpers::asset('img/og-default.svg'),
+            'og_image' => Helpers::siteLogoUrl(),
             'canonical' => self::currentCanonical(),
         ];
     }
@@ -43,7 +43,7 @@ class SEO
         }
         $img = !empty($property['main_image'])
             ? Image::getImageUrl((string) $property['main_image'], 'medium')
-            : Helpers::asset('img/og-default.svg');
+            : Helpers::siteLogoUrl();
 
         return [
             'title' => $pageTitle,

@@ -3,8 +3,12 @@
 declare(strict_types=1);
 
 /** @var array<string, string> $meta */
+$lang = Language::get();
 ?>
 <div class="auth-card">
+    <a class="auth-card__logo" href="<?= Helpers::e(BASE_URL) ?>/">
+        <img src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="200" height="56" decoding="async">
+    </a>
     <h1 class="auth-card__title"><?= Helpers::e(Helpers::__('nav_register')) ?></h1>
     <p class="auth-card__hint"><?= Helpers::e(Helpers::__('auth_register_hint')) ?></p>
     <form method="post" action="<?= Helpers::e(BASE_URL) ?>/register" class="form-stack">

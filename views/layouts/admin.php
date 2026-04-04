@@ -21,7 +21,9 @@ $lang = Language::get();
 <body class="admin-body">
 <div class="admin-shell">
     <aside class="admin-sidebar" aria-label="Admin navigation">
-        <div class="admin-sidebar__brand">InfoKobuleti</div>
+        <a class="admin-sidebar__brand" href="<?= Helpers::e(PUBLIC_BASE_URL) ?>/">
+            <img class="admin-sidebar__logo" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="140" height="40" loading="lazy" decoding="async">
+        </a>
         <nav class="admin-sidebar__nav">
             <a class="admin-sidebar__link" href="<?= Helpers::e(BASE_URL) ?>/"><i class="ph ph-gauge"></i> <?= Helpers::e(Helpers::__('admin_nav_dashboard')) ?></a>
             <a class="admin-sidebar__link" href="<?= Helpers::e(BASE_URL) ?>/properties"><i class="ph ph-buildings"></i> <?= Helpers::e(Helpers::__('admin_nav_properties')) ?></a>

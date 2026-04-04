@@ -23,11 +23,20 @@
 }
 
 .admin-sidebar__brand {
-  font-weight: 700;
-  font-size: 1rem;
+  display: block;
   padding: 0 1.25rem 1.25rem;
-  color: #f8fafc;
-  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.admin-sidebar__brand:hover {
+  opacity: 0.9;
+}
+.admin-sidebar__logo {
+  display: block;
+  height: 2.25rem;
+  width: auto;
+  max-width: 9rem;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .admin-sidebar__nav {

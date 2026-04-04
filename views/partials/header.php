@@ -8,8 +8,7 @@ $isAuth = Auth::isLoggedIn();
 <header class="site-header" x-data="{ open: false }" @keydown.escape.window="open = false">
     <div class="site-header__inner">
         <a class="site-logo" href="<?= Helpers::e(BASE_URL) ?>/">
-            <span class="site-logo__mark" aria-hidden="true">🌊</span>
-            <span class="site-logo__text">InfoKobuleti</span>
+            <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="180" height="48" decoding="async" fetchpriority="high">
         </a>
 
         <nav class="site-nav site-nav--desktop" aria-label="Main">

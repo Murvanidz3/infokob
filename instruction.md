@@ -153,3 +153,5 @@ Admin does **not** use a separate admin login route.
 ## Testing hints
 
 - Mobile width ~375px, three languages, empty states, CSRF tampering, wrong user edit URL, guest `/admin`, non-admin `/admin`, image oversize / bad type.
+
+after making changes make push to git 

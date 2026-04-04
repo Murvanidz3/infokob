@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 $name = Auth::userName() ?: Helpers::__('nav_my_dashboard');
 $email = Auth::userEmail();
+$lang = Language::get();
 ?>
 <aside class="user-sidebar">
     <div class="user-sidebar__brand">
-        <a href="<?= Helpers::e(BASE_URL) ?>/" class="site-logo"><span class="site-logo__mark">🌊</span> InfoKobuleti</a>
+        <a href="<?= Helpers::e(BASE_URL) ?>/" class="site-logo site-logo--sidebar">
+            <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="160" height="44" loading="lazy" decoding="async">
+        </a>
     </div>
     <div class="user-sidebar__user">
         <div class="user-sidebar__avatar" aria-hidden="true"><i class="ph ph-user-circle"></i></div>

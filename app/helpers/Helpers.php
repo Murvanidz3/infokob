@@ -145,6 +145,12 @@ class Helpers
         return rtrim(PUBLIC_BASE_URL, '/') . '/public/assets/' . ltrim($path, '/');
     }
 
+    /** Site logo (place file at public/logo/logo.png). */
+    public static function siteLogoUrl(): string
+    {
+        return rtrim(PUBLIC_BASE_URL, '/') . '/public/logo/logo.png';
+    }
+
     public static function setFlash(string $type, string $message): void
     {
         $_SESSION['flash'] = ['type' => $type, 'message' => $message];
