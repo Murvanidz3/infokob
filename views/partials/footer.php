@@ -11,7 +11,7 @@ $ig = Setting::get('instagram_url');
     <div class="container site-footer__grid">
         <div>
             <a class="site-logo site-logo--footer" href="<?= Helpers::e(BASE_URL) ?>/">
-                <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . Language::get())) ?>" width="160" height="44" loading="lazy" decoding="async">
+                <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . Language::get())) ?>" width="220" height="60" loading="lazy" decoding="async">
             </a>
             <p class="site-footer__tagline"><?= Helpers::e(Helpers::__('footer_tagline')) ?></p>
         </div>

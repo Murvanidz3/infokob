@@ -8,7 +8,7 @@ $isAuth = Auth::isLoggedIn();
 <header class="site-header" x-data="{ open: false }" @keydown.escape.window="open = false">
     <div class="site-header__inner">
         <a class="site-logo" href="<?= Helpers::e(BASE_URL) ?>/">
-            <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="180" height="48" decoding="async" fetchpriority="high">
+            <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="240" height="68" decoding="async" fetchpriority="high">
         </a>
 
         <nav class="site-nav site-nav--desktop" aria-label="Main">

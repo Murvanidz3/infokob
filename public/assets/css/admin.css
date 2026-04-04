@@ -32,9 +32,9 @@
 }
 .admin-sidebar__logo {
   display: block;
-  height: 2.25rem;
+  height: clamp(2.75rem, 6vw, 3.75rem);
   width: auto;
-  max-width: 9rem;
+  max-width: 15rem;
   object-fit: contain;
   object-position: left center;
 }

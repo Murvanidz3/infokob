@@ -9,7 +9,7 @@ $lang = Language::get();
 <aside class="user-sidebar">
     <div class="user-sidebar__brand">
         <a href="<?= Helpers::e(BASE_URL) ?>/" class="site-logo site-logo--sidebar">
-            <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="160" height="44" loading="lazy" decoding="async">
+            <img class="site-logo__img" src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="200" height="52" loading="lazy" decoding="async">
         </a>
     </div>
     <div class="user-sidebar__user">

@@ -85,7 +85,8 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
+  min-height: 4.25rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -106,21 +107,21 @@ a:hover {
 
 .site-logo__img {
   display: block;
-  height: 2.5rem;
+  height: clamp(3rem, 8vw, 4.25rem);
   width: auto;
-  max-width: 11rem;
+  max-width: min(20rem, 70vw);
   object-fit: contain;
   object-position: left center;
 }
 
 .site-logo--footer .site-logo__img {
-  height: 2.25rem;
-  max-width: 10rem;
+  height: clamp(2.75rem, 6vw, 3.75rem);
+  max-width: 18rem;
 }
 
 .site-logo--sidebar .site-logo__img {
-  height: 2.125rem;
-  max-width: 9.5rem;
+  height: clamp(2.5rem, 5vw, 3.25rem);
+  max-width: 16rem;
 }
 
 .site-logo__mark {
@@ -133,9 +134,9 @@ a:hover {
   margin-bottom: 1.25rem;
 }
 .auth-card__logo img {
-  height: 3rem;
+  height: clamp(3.5rem, 10vw, 5rem);
   width: auto;
-  max-width: 12rem;
+  max-width: 20rem;
   margin-inline: auto;
   object-fit: contain;
 }

@@ -7,7 +7,7 @@ $lang = Language::get();
 ?>
 <div class="auth-card">
     <a class="auth-card__logo" href="<?= Helpers::e(BASE_URL) ?>/">
-        <img src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="200" height="56" decoding="async">
+        <img src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="280" height="80" decoding="async">
     </a>
     <h1 class="auth-card__title"><?= Helpers::e(Helpers::__('nav_register')) ?></h1>
     <p class="auth-card__hint"><?= Helpers::e(Helpers::__('auth_register_hint')) ?></p>
