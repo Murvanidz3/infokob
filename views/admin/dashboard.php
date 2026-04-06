@@ -4,9 +4,18 @@ declare(strict_types=1);
 
 /** @var array<string, int> $byStatus */
 /** @var int $userCount */
+/** @var int $featuredActive */
+/** @var int $featuredExpiredCleared */
 ?>
 <h1 class="admin-page__title"><?= Helpers::e(Helpers::__('admin_dashboard_title')) ?></h1>
 <p class="admin-page__lead"><?= Helpers::e(Helpers::__('admin_dashboard_lead')) ?></p>
+
+<p class="admin-featured-summary">
+    <?= Helpers::e(Helpers::__('admin_dashboard_featured_line', [
+        'active' => (string) (int) ($featuredActive ?? 0),
+        'cleared' => (string) (int) ($featuredExpiredCleared ?? 0),
+    ])) ?>
+</p>
 
 <div class="admin-stats">
     <a class="admin-stat admin-stat--link" href="<?= Helpers::e(BASE_URL) ?>/properties?status=pending">

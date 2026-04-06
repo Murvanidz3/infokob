@@ -13,7 +13,7 @@ return [
     ['GET', '/properties/{id}', 'AdminController@propertyShow'],
     ['POST', '/properties/{id}/approve', 'AdminController@propertyApprove'],
     ['POST', '/properties/{id}/reject', 'AdminController@propertyReject'],
-    ['POST', '/properties/{id}/feature', 'AdminController@propertyToggleFeature'],
+    ['POST', '/properties/{id}/featured', 'AdminController@propertyFeaturedSave'],
     ['GET', '/users', 'AdminController@users'],
     ['POST', '/users/{id}/active', 'AdminController@userToggleActive'],
     ['GET', '/settings', 'AdminController@settingsForm'],

@@ -15,7 +15,9 @@ $area = $property['area_m2'] ?? null;
 $sea = $property['sea_distance_m'] ?? null;
 $district = (string) ($property['district'] ?? '');
 $created = Helpers::timeAgo($property['created_at'] ?? null);
-$featured = !empty($property['is_featured']);
+$fu = $property['featured_until'] ?? null;
+$featured = !empty($property['is_featured'])
+    && ($fu === null || $fu === '' || strtotime((string) $fu) > time());
 ?>
 <article class="property-card">
     <a class="property-card__media" href="<?= Helpers::e($href) ?>">

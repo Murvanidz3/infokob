@@ -823,20 +823,52 @@ class Property
         return $st->rowCount() > 0;
     }
 
-    public static function adminToggleFeatured(int $id): bool
+    /** Featured active listings with valid (or open) end date. */
+    public static function countFeaturedActiveValid(): int
     {
         $pdo = Database::getInstance();
-        $st = $pdo->prepare('SELECT id, status, is_featured FROM properties WHERE id = ?');
+        $st = $pdo->query(
+            "SELECT COUNT(*) FROM properties WHERE status = 'active'
+             AND is_featured = 1 AND (featured_until IS NULL OR featured_until > NOW())"
+        );
+        return (int) $st->fetchColumn();
+    }
+
+    /**
+     * Featured rows that should be cleared (before running deactivateExpiredFeatured).
+     */
+    public static function countFeaturedExpiredNotCleared(): int
+    {
+        $pdo = Database::getInstance();
+        $st = $pdo->query(
+            "SELECT COUNT(*) FROM properties WHERE status = 'active'
+             AND is_featured = 1 AND featured_until IS NOT NULL AND featured_until < NOW()"
+        );
+        return (int) $st->fetchColumn();
+    }
+
+    /**
+     * Admin: set featured on/off and optional end datetime (active listings only).
+     * If $on and $untilInput empty → default duration from settings from now.
+     *
+     * @param string|null $untilInput raw datetime-local or similar
+     */
+    public static function adminSaveFeatured(int $id, bool $on, ?string $untilInput): bool
+    {
+        $pdo = Database::getInstance();
+        $st = $pdo->prepare('SELECT id, status FROM properties WHERE id = ?');
         $st->execute([$id]);
         $row = $st->fetch(PDO::FETCH_ASSOC);
-        if ($row === false) {
+        if ($row === false || ($row['status'] ?? '') !== 'active') {
             return false;
         }
-        if (($row['status'] ?? '') !== 'active') {
-            return false;
+        if (!$on) {
+            $u = $pdo->prepare('UPDATE properties SET is_featured = 0, featured_until = NULL WHERE id = ?');
+            $u->execute([$id]);
+            return true;
         }
-        $on = !((int) ($row['is_featured'] ?? 0));
-        if ($on) {
+        $trim = $untilInput !== null ? trim($untilInput) : '';
+        if ($trim === '') {
             $days = (int) Setting::get('featured_duration_days', '30');
             if ($days < 1) {
                 $days = 30;
@@ -845,10 +877,18 @@ class Property
                 'UPDATE properties SET is_featured = 1, featured_until = DATE_ADD(NOW(), INTERVAL ? DAY), featured_paid = 0 WHERE id = ?'
             );
             $u->execute([$days, $id]);
-        } else {
-            $u = $pdo->prepare('UPDATE properties SET is_featured = 0, featured_until = NULL WHERE id = ?');
-            $u->execute([$id]);
+            return true;
         }
+        $ts = strtotime($trim);
+        if ($ts === false) {
+            return false;
+        }
+        if ($ts < time()) {
+            return false;
+        }
+        $untilSql = date('Y-m-d H:i:s', $ts);
+        $u = $pdo->prepare('UPDATE properties SET is_featured = 1, featured_until = ?, featured_paid = 0 WHERE id = ?');
+        $u->execute([$untilSql, $id]);
         return true;
     }
 }

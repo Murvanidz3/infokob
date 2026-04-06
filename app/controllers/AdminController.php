@@ -24,7 +24,9 @@ class AdminController
     public function dashboard(): void
     {
         Auth::requireAdmin();
+        $featuredExpired = Property::countFeaturedExpiredNotCleared();
         Property::deactivateExpiredFeatured();
+        $featuredActive = Property::countFeaturedActiveValid();
         $byStatus = Property::adminCountByStatus();
         $userCount = User::adminCountRegular();
         $meta = ['title' => Helpers::__('admin_dashboard_title') . ' — Admin', 'description' => ''];
@@ -32,6 +34,8 @@ class AdminController
             'meta' => $meta,
             'byStatus' => $byStatus,
             'userCount' => $userCount,
+            'featuredActive' => $featuredActive,
+            'featuredExpiredCleared' => $featuredExpired,
         ], 'admin');
     }
 
@@ -148,7 +152,7 @@ class AdminController
         Helpers::redirect(BASE_URL . '/properties/' . $id);
     }
 
-    public function propertyToggleFeature(array $params = []): void
+    public function propertyFeaturedSave(array $params = []): void
     {
         Auth::requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -163,10 +167,15 @@ class AdminController
             Helpers::setFlash('error', Helpers::__('admin_error_not_found'));
             Helpers::redirect(BASE_URL . '/properties');
         }
-        if (Property::adminToggleFeatured($id)) {
+        $on = isset($_POST['is_featured']) && (string) $_POST['is_featured'] === '1';
+        $untilRaw = trim((string) ($_POST['featured_until'] ?? ''));
+        $until = $untilRaw !== '' ? $untilRaw : null;
+        if (Property::adminSaveFeatured($id, $on, $until)) {
             Helpers::setFlash('success', Helpers::__('admin_feature_updated'));
         } else {
-            Helpers::setFlash('error', Helpers::__('admin_error_feature'));
+            Helpers::setFlash('error', $on && $until !== null
+                ? Helpers::__('admin_featured_invalid_date')
+                : Helpers::__('admin_error_feature'));
         }
         Helpers::redirect(BASE_URL . '/properties/' . $id);
     }

@@ -15,6 +15,7 @@ $lang = Language::get();
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/style.css')) ?>">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/components.css')) ?>">
+    <style>[x-cloak]{display:none!important}</style>
     <?= $extraHead ?? '' ?>
 </head>
 <body class="user-body">

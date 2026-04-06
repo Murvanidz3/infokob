@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__, 2) . '/app/models/User.php';
 require_once dirname(__DIR__, 2) . '/app/models/Property.php';
+require_once dirname(__DIR__, 2) . '/app/models/Setting.php';
 
 class UserController
 {
@@ -34,6 +35,9 @@ class UserController
         View::render('user/listings', [
             'meta' => $meta,
             'listings' => $rows,
+            'featuredPriceGel' => Setting::get('featured_price_gel', '25'),
+            'featuredDurationDays' => Setting::get('featured_duration_days', '30'),
+            'contactPhone' => Setting::get('contact_phone', ''),
         ], 'user');
     }
 

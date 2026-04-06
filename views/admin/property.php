@@ -107,12 +107,27 @@ $publicUrl = PUBLIC_BASE_URL . '/listings/' . rawurlencode($slug);
         <?php endif; ?>
 
         <?php if ($status === 'active'): ?>
+            <?php
+            $fu = $p['featured_until'] ?? null;
+            $fuLocal = '';
+            if ($fu !== null && $fu !== '') {
+                $fuLocal = date('Y-m-d\TH:i', strtotime((string) $fu));
+            }
+            ?>
             <div class="admin-card">
                 <h2 class="admin-card__title"><?= Helpers::e(Helpers::__('admin_action_featured')) ?></h2>
                 <p style="margin:0 0 0.75rem;font-size:0.875rem;color:#94a3b8"><?= Helpers::e(Helpers::__('admin_featured_hint')) ?></p>
-                <form method="post" action="<?= Helpers::e(BASE_URL) ?>/properties/<?= $id ?>/feature">
+                <form method="post" action="<?= Helpers::e(BASE_URL) ?>/properties/<?= $id ?>/featured" class="form-stack">
                     <input type="hidden" name="csrf" value="<?= Helpers::e(Helpers::csrfToken()) ?>">
-                    <button type="submit" class="btn btn--accent btn--pill btn--block"><?= Helpers::e(Helpers::__('admin_btn_toggle_feature')) ?></button>
+                    <input type="hidden" name="is_featured" value="0">
+                    <label class="admin-check">
+                        <input type="checkbox" name="is_featured" value="1" <?= !empty($p['is_featured']) ? 'checked' : '' ?>>
+                        <?= Helpers::e(Helpers::__('admin_featured_checkbox')) ?>
+                    </label>
+                    <label class="form-label" for="featured_until"><?= Helpers::e(Helpers::__('admin_featured_until_label')) ?></label>
+                    <input id="featured_until" class="input admin-input" type="datetime-local" name="featured_until" value="<?= Helpers::e($fuLocal) ?>">
+                    <p style="margin:0;font-size:0.8rem;color:#64748b"><?= Helpers::e(Helpers::__('admin_featured_until_help')) ?></p>
+                    <button type="submit" class="btn btn--accent btn--pill btn--block admin-mt"><?= Helpers::e(Helpers::__('admin_featured_save')) ?></button>
                 </form>
             </div>
         <?php endif; ?>

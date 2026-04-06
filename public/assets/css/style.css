@@ -1891,3 +1891,90 @@ a:hover {
   font-size: 0.875rem;
   font-weight: 600;
 }
+
+/* User listings — Premium modal */
+.premium-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.premium-modal__panel {
+  background: var(--white);
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+  max-width: 26rem;
+  width: 100%;
+  padding: 1.5rem 1.35rem;
+  max-height: min(90vh, 520px);
+  overflow-y: auto;
+}
+
+.premium-modal__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.premium-modal__lead {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.premium-modal__listing {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.premium-modal__list {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.premium-modal__pay {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.premium-modal__banks,
+.premium-modal__phone,
+.premium-modal__disclaimer {
+  margin: 0 0 0.65rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.premium-modal__ok {
+  margin-top: 0.5rem;
+  min-height: 48px;
+}
+
+.data-table__premium {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.data-table__premium .premium-badge {
+  margin-right: 0.35rem;
+}
+
+.data-table__premium .btn {
+  min-height: 40px;
+}
+
+.muted-dash {
+  color: var(--muted);
+}
