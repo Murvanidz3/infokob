@@ -19,6 +19,9 @@
   --shadow: 0 10px 40px rgba(30, 41, 59, 0.08);
   --radius: 8px;
   --font: "Main Font", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Main content width — wider than typical 1120px for more horizontal space */
+  --layout-max: 1420px;
+  --layout-gutter: 1.5rem;
 }
 
 *,
@@ -55,7 +58,7 @@ a:hover {
 }
 
 .container {
-  width: min(1120px, 100% - 2rem);
+  width: min(var(--layout-max), 100% - (2 * var(--layout-gutter)));
   margin-inline: auto;
 }
 
@@ -87,8 +90,8 @@ a:hover {
   gap: 1rem;
   padding: 0.85rem 1rem;
   min-height: 4.25rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: min(var(--layout-max), 100% - (2 * var(--layout-gutter)));
+  margin-inline: auto;
 }
 
 .site-logo {
@@ -317,11 +320,12 @@ a:hover {
 
 /* Flash */
 .flash {
-  max-width: 1120px;
+  width: min(var(--layout-max), 100% - (2 * var(--layout-gutter)));
   margin: 0.75rem auto;
   padding: 0.75rem 1rem;
   border-radius: var(--radius);
   font-size: 0.9375rem;
+  box-sizing: border-box;
 }
 
 .flash--success {
@@ -414,7 +418,7 @@ a:hover {
 }
 
 .home-search .search-hero {
-  max-width: min(52rem, 100%);
+  max-width: min(62rem, 100%);
 }
 
 /* Stats bar */
@@ -425,8 +429,7 @@ a:hover {
   position: relative;
   z-index: 2;
   border-radius: var(--radius);
-  margin-inline: 1rem;
-  max-width: 1100px;
+  width: min(var(--layout-max), 100% - (2 * var(--layout-gutter)));
   margin-left: auto;
   margin-right: auto;
 }
@@ -870,13 +873,17 @@ a:hover {
 }
 
 .listings-top {
-  padding: 1.25rem 1rem;
+  padding: 1.25rem 0;
+}
+
+.listings-top .search-compact {
+  max-width: 100%;
 }
 
 .listings-layout {
   display: grid;
   gap: 1.5rem;
-  padding: 0 1rem;
+  padding: 0;
 }
 
 @media (min-width: 960px) {
@@ -1328,7 +1335,7 @@ a:hover {
 .user-shell__main {
   flex: 1;
   padding: 1.5rem 1.25rem 3rem;
-  max-width: 960px;
+  max-width: min(1200px, 100%);
 }
 
 @media (max-width: 900px) {
