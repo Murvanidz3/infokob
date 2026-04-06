@@ -68,7 +68,7 @@ $categoryCards = [
             <h2 class="section__title"><?= Helpers::e(Helpers::__('section_featured')) ?></h2>
             <a class="section__link" href="<?= Helpers::e(BASE_URL) ?>/listings"><?= Helpers::e(Helpers::__('btn_view_all')) ?> →</a>
         </div>
-        <div class="grid grid--3">
+        <div class="grid grid--4">
             <?php foreach ($featured as $property): ?>
                 <?php View::partial('property-card', ['property' => $property]); ?>
             <?php endforeach; ?>

@@ -128,7 +128,7 @@ $typesSel = $f['types'] ?? [];
                 <p class="results-bar__count" id="results-count"><?= Helpers::e(Helpers::__('results_found', ['n' => (string) $total])) ?></p>
             </div>
 
-            <div class="grid grid--3" id="listing-results">
+            <div class="grid grid--4" id="listing-results">
                 <?php foreach ($listings as $property): ?>
                     <?php View::partial('property-card', ['property' => $property]); ?>
                 <?php endforeach; ?>

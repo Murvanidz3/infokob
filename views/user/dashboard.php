@@ -21,7 +21,7 @@ declare(strict_types=1);
         <a class="btn btn--secondary btn--sm btn--pill" href="<?= Helpers::e(BASE_URL) ?>/my/listings"><?= Helpers::e(Helpers::__('user_view_all')) ?></a>
     </div>
 
-    <div class="grid grid--3">
+    <div class="grid grid--4">
         <?php foreach ($recent as $property): ?>
             <?php View::partial('property-card', ['property' => $property]); ?>
         <?php endforeach; ?>

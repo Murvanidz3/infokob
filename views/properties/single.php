@@ -176,7 +176,7 @@ if ($mapsKey !== '' && $lat !== null && $lng !== null) {
         <section class="section">
             <div class="container">
                 <h2 class="section__title"><?= Helpers::e(Helpers::__('similar_title')) ?></h2>
-                <div class="grid grid--3">
+                <div class="grid grid--4">
                     <?php foreach ($similar as $property): ?>
                         <?php View::partial('property-card', ['property' => $property]); ?>
                     <?php endforeach; ?>
