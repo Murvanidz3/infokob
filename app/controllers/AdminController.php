@@ -151,6 +151,15 @@ class AdminController
                 $deleteIds[] = (int) $imgId;
             }
         }
+        $mainImageId = isset($_POST['main_image_id']) && $_POST['main_image_id'] !== ''
+            ? (int) $_POST['main_image_id']
+            : null;
+        $imageOrder = [];
+        if (!empty($_POST['image_order']) && is_array($_POST['image_order'])) {
+            foreach ($_POST['image_order'] as $imgId) {
+                $imageOrder[] = (int) $imgId;
+            }
+        }
 
         $before = count(Property::getImages($id));
         if ($before - count($deleteIds) + count($newFiles) < 1) {
@@ -166,7 +175,9 @@ class AdminController
                 $data,
                 $tr,
                 $newFiles,
-                $deleteIds
+                $deleteIds,
+                $mainImageId,
+                $imageOrder
             );
         } catch (Throwable $e) {
             Helpers::setFlash('error', Helpers::__('user_error_generic'));

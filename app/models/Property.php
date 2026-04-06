@@ -539,6 +539,8 @@ class Property
      * @param array<string, array{title:string,description:string}> $translations
      * @param list<array{tmp_name:string,error:int,name:string,size:int,type:string}> $newFiles
      * @param list<int> $deleteImageIds
+     * @param int|null $mainImageId
+     * @param list<int> $imageOrder
      */
     public static function updateForUser(
         int $propertyId,
@@ -547,7 +549,9 @@ class Property
         array $data,
         array $translations,
         array $newFiles,
-        array $deleteImageIds
+        array $deleteImageIds,
+        ?int $mainImageId = null,
+        array $imageOrder = []
     ): void {
         $pdo = Database::getInstance();
         $own = self::getOwnedById($propertyId, $userId);
@@ -644,7 +648,33 @@ class Property
                 }
             }
 
-            self::normalizeMainImage($propertyId);
+            if ($imageOrder !== []) {
+                $orderStmt = $pdo->prepare('UPDATE property_images SET sort_order = ? WHERE id = ? AND property_id = ?');
+                $sort = 0;
+                foreach ($imageOrder as $imgId) {
+                    $imgId = (int) $imgId;
+                    if ($imgId <= 0) {
+                        continue;
+                    }
+                    $orderStmt->execute([$sort, $imgId, $propertyId]);
+                    if ($orderStmt->rowCount() > 0) {
+                        $sort++;
+                    }
+                }
+            }
+
+            if ($mainImageId !== null && $mainImageId > 0) {
+                $existsStmt = $pdo->prepare('SELECT COUNT(*) FROM property_images WHERE id = ? AND property_id = ?');
+                $existsStmt->execute([$mainImageId, $propertyId]);
+                if ((int) $existsStmt->fetchColumn() > 0) {
+                    $pdo->exec('UPDATE property_images SET is_main = 0 WHERE property_id = ' . (int) $propertyId);
+                    $pdo->prepare('UPDATE property_images SET is_main = 1 WHERE id = ?')->execute([$mainImageId]);
+                } else {
+                    self::normalizeMainImage($propertyId);
+                }
+            } else {
+                self::normalizeMainImage($propertyId);
+            }
 
             $pdo->commit();
         } catch (Throwable $e) {
