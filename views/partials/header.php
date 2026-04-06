@@ -11,7 +11,7 @@ $switchLangUrl = rtrim(PUBLIC_BASE_URL, '/') . '/switch-lang.php';
 <header class="site-header" x-data="{ open: false, searchOpen: false }" @keydown.escape.window="open = false; searchOpen = false">
     <div class="site-header__inner container">
         <a class="site-logo site-logo--wordmark" href="<?= Helpers::e(BASE_URL) ?>/">
-            <span class="site-logo__text" aria-label="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>">🌊 InfoKobuleti</span>
+            <span class="site-logo__text" aria-label="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>">INFOKOBULETI</span>
         </a>
 
         <?php if ($showMiniSearch): ?>

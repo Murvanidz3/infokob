@@ -32,9 +32,6 @@
   align-items: center;
   gap: var(--space-2);
   flex-shrink: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.25rem;
   color: var(--primary);
   text-decoration: none;
 }
@@ -46,6 +43,25 @@
 
 .site-logo__text {
   white-space: nowrap;
+}
+
+.site-logo--wordmark .site-logo__text {
+  font-family: var(--font-logo);
+  font-weight: 700;
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+  letter-spacing: 0.13em;
+  line-height: 1.2;
+}
+
+.auth-card__logo.site-logo--wordmark {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: var(--space-5);
+}
+
+.auth-card__logo.site-logo--wordmark .site-logo__text {
+  font-size: clamp(1rem, 4vw, 1.35rem);
 }
 
 .site-logo__img {

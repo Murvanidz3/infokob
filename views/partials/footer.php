@@ -12,7 +12,7 @@ $lang = Language::get();
     <div class="container site-footer__grid">
         <div>
             <a class="site-logo site-logo--wordmark" href="<?= Helpers::e(BASE_URL) ?>/">
-                <span class="site-logo__text">🌊 InfoKobuleti</span>
+                <span class="site-logo__text">INFOKOBULETI</span>
             </a>
             <p class="site-footer__tagline"><?= Helpers::e(Helpers::__('footer_tagline')) ?></p>
             <div class="site-footer__social">

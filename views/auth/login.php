@@ -6,8 +6,8 @@ declare(strict_types=1);
 $lang = Language::get();
 ?>
 <div class="auth-card">
-    <a class="auth-card__logo" href="<?= Helpers::e(BASE_URL) ?>/">
-        <img src="<?= Helpers::e(Helpers::siteLogoUrl()) ?>" alt="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>" width="280" height="80" decoding="async">
+    <a class="auth-card__logo site-logo site-logo--wordmark" href="<?= Helpers::e(BASE_URL) ?>/">
+        <span class="site-logo__text" aria-label="<?= Helpers::e(Helpers::__('site_name_' . $lang)) ?>">INFOKOBULETI</span>
     </a>
     <h1 class="auth-card__title"><?= Helpers::e(Helpers::__('nav_login')) ?></h1>
     <p class="auth-card__hint"><?= Helpers::e(Helpers::__('auth_login_hint')) ?></p>

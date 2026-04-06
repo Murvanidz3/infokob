@@ -16,7 +16,7 @@ $pageTitle = $meta['title'] ?? 'Admin';
     <meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/variables.css')) ?>">
     <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/admin.css')) ?>">
@@ -25,7 +25,7 @@ $pageTitle = $meta['title'] ?? 'Admin';
 <div class="admin-shell">
     <aside class="admin-sidebar" aria-label="Admin navigation">
         <a class="admin-sidebar__brand" href="<?= Helpers::e(BASE_URL) ?>/">
-            <span class="admin-sidebar__wordmark">🌊 InfoKobuleti</span>
+            <span class="admin-sidebar__wordmark">INFOKOBULETI</span>
             <span class="admin-sidebar__badge">Admin</span>
         </a>
         <div class="admin-sidebar__section">Main</div>

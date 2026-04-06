@@ -59,6 +59,8 @@
   --font-mtavruli: "InfoKobuleti Mtavruli", "BPG Nino Mtavruli", "DejaVu Sans", sans-serif;
   --font: var(--font-mtavruli), "Inter", "BPG Arial", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: var(--font-mtavruli), "Inter", sans-serif;
+  /* Latin wordmark (header/footer) — uniform caps */
+  --font-logo: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
 
   /* Spacing */
   --space-1: 4px;

@@ -54,8 +54,11 @@
 }
 
 .admin-sidebar__wordmark {
+  font-family: var(--font-logo);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 0.9375rem;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
   color: #fff;
 }
 
