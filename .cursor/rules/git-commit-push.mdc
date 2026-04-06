@@ -1,0 +1,14 @@
+---
+description: After code changes in this repo, commit and push to origin so work is not left local only.
+alwaysApply: true
+---
+
+# Git: commit and push (InfoKobuleti)
+
+When you finish a batch of edits that the user asked for (or that clearly complete a task):
+
+1. Run `git status` in the project root.
+2. If there are changes, stage (`git add`), write a clear commit message, and **`git push origin main`** (or the current branch).
+3. Do not end the session with uncommitted work unless the user explicitly asked to leave it unstaged.
+
+If push fails (auth/network), report the error and what remains to do.

@@ -18,13 +18,13 @@ class BaseController
     <title><?= Helpers::e($pageTitle) ?> — InfoKobuleti</title>
     <style>
         @font-face {
-            font-family: "Main Font";
-            src: url("<?= Helpers::e(PUBLIC_BASE_URL) ?>/fonts/font.ttf") format("truetype");
+            font-family: "InfoKobuleti Mtavruli";
+            src: url("<?= Helpers::e(PUBLIC_BASE_URL) ?>/public/fonts/font.ttf") format("truetype");
             font-weight: 100 900;
             font-style: normal;
             font-display: swap;
         }
-        body { font-family: "Main Font", system-ui, sans-serif; background: #F8FAFC; color: #1E293B; margin: 0; padding: 2rem; }
+        body { font-family: "InfoKobuleti Mtavruli", system-ui, sans-serif; background: #F8FAFC; color: #1E293B; margin: 0; padding: 2rem; }
         .card { max-width: 560px; margin: 4rem auto; background: #fff; border-radius: 8px; padding: 2rem; box-shadow: 0 10px 40px rgba(30,41,59,.08); }
         a { color: #2563EB; }
     </style>

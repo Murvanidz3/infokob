@@ -1,0 +1,11 @@
+/* Local Mtavruli — place files in /public/fonts/ (see BaseController placeholder) */
+@font-face {
+  font-family: "InfoKobuleti Mtavruli";
+  src:
+    url("../../fonts/mtavruli.woff2") format("woff2"),
+    url("../../fonts/mtavruli.woff") format("woff"),
+    url("../../fonts/font.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}

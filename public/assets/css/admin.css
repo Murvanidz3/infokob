@@ -1,5 +1,6 @@
 /* Admin — dark sidebar + light main (Linear/Vercel inspired) */
 @import url("variables.css");
+@import url("fonts.css");
 
 .admin-body {
   margin: 0;

@@ -40,9 +40,9 @@ if ($pathOnly === '/' || str_starts_with($pathOnly, '/listings')) {
 
 $segBase = rtrim(BASE_URL, '/') . '/';
 $headerSegments = [
-    ['id' => 'property', 'href' => $segBase . 'listings', 'icon' => 'ph-house', 'labelKey' => 'nav_segment_property'],
+    ['id' => 'property', 'href' => $segBase . 'listings', 'icon' => 'ph-buildings', 'labelKey' => 'nav_segment_property'],
     ['id' => 'jobs', 'href' => $segBase . 'vacancies', 'icon' => 'ph-briefcase', 'labelKey' => 'nav_segment_jobs'],
-    ['id' => 'services', 'href' => $segBase . 'classifieds', 'icon' => 'ph-wrench', 'labelKey' => 'nav_segment_services'],
+    ['id' => 'services', 'href' => $segBase . 'classifieds', 'icon' => 'ph-gear-six', 'labelKey' => 'nav_segment_services'],
     ['id' => 'market', 'href' => $segBase . 'hotels', 'icon' => 'ph-storefront', 'labelKey' => 'nav_segment_market'],
     ['id' => 'kobuleti', 'href' => $segBase . 'kobuleti', 'icon' => 'ph-map-pin', 'labelKey' => 'nav_segment_kobuleti'],
     ['id' => 'transport', 'href' => $segBase . 'transport', 'icon' => 'ph-car', 'labelKey' => 'nav_segment_transport'],

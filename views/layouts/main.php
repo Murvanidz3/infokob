@@ -18,6 +18,14 @@ $lang = Language::get();
     <meta property="og:description" content="<?= Helpers::e($meta['description'] ?? '') ?>">
     <meta property="og:image" content="<?= Helpers::e($meta['og_image'] ?? '') ?>">
     <meta property="og:type" content="website">
+    <?php
+    $fontPreload = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'mtavruli.woff2';
+    $fontPreloadTtf = PUBLIC_PATH . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'font.ttf';
+    if (is_file($fontPreload)): ?>
+        <link rel="preload" href="<?= Helpers::e(rtrim(PUBLIC_BASE_URL, '/') . '/public/fonts/mtavruli.woff2') ?>" as="font" type="font/woff2" crossorigin>
+    <?php elseif (is_file($fontPreloadTtf)): ?>
+        <link rel="preload" href="<?= Helpers::e(rtrim(PUBLIC_BASE_URL, '/') . '/public/fonts/font.ttf') ?>" as="font" type="font/ttf" crossorigin>
+    <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
