@@ -2,45 +2,34 @@
   padding-bottom: var(--space-16);
 }
 
-.listings-top {
-  padding: var(--space-4) 0;
-  position: sticky;
-  top: var(--header-height);
-  z-index: 40;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border-light);
-  margin-bottom: var(--space-4);
-}
-
-.listings-top__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: var(--space-4);
-  justify-content: space-between;
-}
-
-.listings-top__row .search-compact {
-  flex: 1;
-  min-width: min(100%, 520px);
+.page-listings {
+  padding-top: var(--space-4);
 }
 
 .listings-layout {
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 @media (min-width: 1024px) {
   .listings-layout {
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
     align-items: start;
+    gap: var(--space-8);
   }
 }
 
 .listings-sidebar {
   position: sticky;
-  top: calc(var(--header-height) + 80px);
+  top: calc(var(--header-height) + 12px);
+  align-self: start;
+  max-height: calc(100vh - var(--header-height) - 24px);
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.listings-main {
+  min-width: 0;
 }
 
 .filter-panel {
@@ -68,6 +57,53 @@
   font-weight: 600;
   margin-bottom: var(--space-3);
   color: var(--text-secondary);
+}
+
+.filter-deal-tabs {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.filter-deal-tab {
+  position: relative;
+  flex: 1;
+  min-width: 72px;
+  cursor: pointer;
+}
+
+.filter-deal-tab input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.filter-deal-tab span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+  transition: var(--transition);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.filter-deal-tab input:focus-visible + span {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.filter-deal-tab input:checked + span {
+  background: var(--text-primary);
+  color: #fff;
+  border-color: var(--text-primary);
 }
 
 .filter-check,

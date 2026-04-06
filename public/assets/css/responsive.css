@@ -27,7 +27,7 @@
 /* Touch targets */
 @media (pointer: coarse) {
   .btn,
-  .site-nav__link,
+  .header-segment,
   .lang-switch__btn {
     min-height: 44px;
   }

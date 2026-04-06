@@ -14,22 +14,30 @@ $f = $filters;
 $deal = (string) ($f['deal_type'] ?? 'sale');
 $typesSel = $f['types'] ?? [];
 ?>
-<div class="listings-page">
-    <div class="listings-top container">
-        <div class="listings-top__row">
-            <?php View::partial('search-bar', ['variant' => 'compact', 'deal' => $deal]); ?>
-            <div class="layout-toggle" role="group" aria-label="View">
-                <button type="button" class="is-active" id="layout-grid" title="Grid">⊞</button>
-                <button type="button" id="layout-list" title="List">☰</button>
-            </div>
-        </div>
-    </div>
-
+<div class="listings-page page-listings">
     <div class="container listings-layout">
         <button type="button" class="filter-sheet-trigger" id="filter-sheet-open"><?= Helpers::e(Helpers::__('filter_title')) ?> ⚙</button>
         <aside class="listings-sidebar" id="listings-sidebar" aria-label="<?= Helpers::e(Helpers::__('filter_title')) ?>">
             <form id="listing-filters" class="filter-panel" method="get" action="<?= Helpers::e(rtrim(BASE_URL, '/') . '/listings') ?>">
                 <h3 class="filter-panel__title"><?= Helpers::e(Helpers::__('filter_title')) ?></h3>
+
+                <fieldset class="filter-fieldset filter-fieldset--deal-tabs">
+                    <legend class="visually-hidden"><?= Helpers::e(Helpers::__('filter_deal')) ?></legend>
+                    <div class="filter-deal-tabs" role="group">
+                        <label class="filter-deal-tab">
+                            <input type="radio" name="deal" value="sale" <?= $deal === 'sale' ? 'checked' : '' ?>>
+                            <span><?= Helpers::e(Helpers::__('deal_sale')) ?></span>
+                        </label>
+                        <label class="filter-deal-tab">
+                            <input type="radio" name="deal" value="rent" <?= $deal === 'rent' ? 'checked' : '' ?>>
+                            <span><?= Helpers::e(Helpers::__('deal_rent')) ?></span>
+                        </label>
+                        <label class="filter-deal-tab">
+                            <input type="radio" name="deal" value="daily_rent" <?= $deal === 'daily_rent' ? 'checked' : '' ?>>
+                            <span><?= Helpers::e(Helpers::__('deal_daily')) ?></span>
+                        </label>
+                    </div>
+                </fieldset>
 
                 <fieldset class="filter-fieldset">
                     <legend><?= Helpers::e(Helpers::__('filter_type')) ?></legend>
@@ -50,13 +58,6 @@ $typesSel = $f['types'] ?? [];
                             <?= Helpers::e(Helpers::__($labelKey)) ?>
                         </label>
                     <?php endforeach; ?>
-                </fieldset>
-
-                <fieldset class="filter-fieldset">
-                    <legend><?= Helpers::e(Helpers::__('filter_deal')) ?></legend>
-                    <label class="filter-radio"><input type="radio" name="deal" value="sale" <?= $deal === 'sale' ? 'checked' : '' ?>> <?= Helpers::e(Helpers::__('deal_sale')) ?></label>
-                    <label class="filter-radio"><input type="radio" name="deal" value="rent" <?= $deal === 'rent' ? 'checked' : '' ?>> <?= Helpers::e(Helpers::__('deal_rent')) ?></label>
-                    <label class="filter-radio"><input type="radio" name="deal" value="daily_rent" <?= $deal === 'daily_rent' ? 'checked' : '' ?>> <?= Helpers::e(Helpers::__('deal_daily')) ?></label>
                 </fieldset>
 
                 <div class="filter-field">
@@ -133,6 +134,10 @@ $typesSel = $f['types'] ?? [];
         <div class="listings-main">
             <div class="results-bar">
                 <p class="results-bar__count" id="results-count"><?= Helpers::e(Helpers::__('results_found', ['n' => (string) $total])) ?></p>
+                <div class="layout-toggle" role="group" aria-label="View">
+                    <button type="button" class="is-active" id="layout-grid" title="Grid">⊞</button>
+                    <button type="button" id="layout-list" title="List">☰</button>
+                </div>
             </div>
 
             <div class="grid grid--4" id="listing-results">

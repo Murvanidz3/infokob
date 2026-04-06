@@ -34,6 +34,8 @@
   --warning: #c96c00;
   --danger: #c13515;
   --info: #0070f3;
+  /* Header segment switcher (ss.ge-style) */
+  --nav-segment-active: #2c61f2;
 
   /* Shadows */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.08);
