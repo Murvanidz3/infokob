@@ -29,7 +29,7 @@ return [
     ['GET', '/login', 'AuthController@loginForm'],
     ['POST', '/login', 'AuthController@login'],
     ['GET', '/logout', 'AuthController@logout'],
-    ['GET', '/lang/{code}', 'LanguageController@setLang'],
+    ['GET', '/switch-lang', 'LanguageController@setLang'],
 
     ['GET', '/my/dashboard', 'UserController@dashboard'],
     ['GET', '/my/listings/create', 'UserController@createForm'],

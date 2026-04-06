@@ -15,6 +15,10 @@
   async function load() {
     if (!grid) return;
     grid.classList.add('is-loading');
+    var snapshot = grid.innerHTML;
+    grid.innerHTML = new Array(6)
+      .fill('<div class="skeleton" style="height:280px;border-radius:12px"></div>')
+      .join('');
     var qs = new URLSearchParams(new FormData(form));
     qs.set('ajax', '1');
     var url = form.getAttribute('action').split('?')[0] + '?' + qs.toString();
@@ -30,9 +34,12 @@
           countEl.textContent = j.countLabel;
         }
         showEmpty(!j.html || j.html.trim() === '');
+      } else {
+        grid.innerHTML = snapshot;
       }
     } catch (e) {
       console.error(e);
+      grid.innerHTML = snapshot;
     } finally {
       grid.classList.remove('is-loading');
     }

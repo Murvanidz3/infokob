@@ -1,0 +1,34 @@
+/* Mobile first refinements */
+@media (max-width: 767px) {
+  .site-header__actions .btn--sm:not(.site-header__burger) {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .results-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-table--responsive .admin-table th:nth-child(n + 6),
+  .admin-table--responsive .admin-table td:nth-child(n + 6) {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .filter-sheet-trigger {
+    display: none;
+  }
+}
+
+/* Touch targets */
+@media (pointer: coarse) {
+  .btn,
+  .site-nav__link,
+  .lang-switch__btn {
+    min-height: 44px;
+  }
+}

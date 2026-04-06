@@ -18,21 +18,29 @@ $lang = Language::get();
     <meta property="og:description" content="<?= Helpers::e($meta['description'] ?? '') ?>">
     <meta property="og:image" content="<?= Helpers::e($meta['og_image'] ?? '') ?>">
     <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
-    <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/style.css')) ?>">
-    <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/components.css')) ?>">
+    <link rel="stylesheet" href="<?= Helpers::e(Helpers::asset('css/app.css')) ?>">
     <style>[x-cloak]{display:none!important}</style>
     <?= $extraHead ?? '' ?>
 </head>
 <body class="<?= Helpers::e($bodyClass) ?>">
-<?php View::partial('header', ['meta' => $meta]); ?>
+<?php View::partial('header', ['meta' => $meta, 'bodyClass' => $bodyClass ?? '']); ?>
 <?php View::partial('flash-message'); ?>
 <main id="main-content">
     <?= $content ?? '' ?>
 </main>
 <?php View::partial('footer'); ?>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
-<script defer src="<?= Helpers::e(Helpers::asset('js/main.js')) ?>"></script>
+<script defer src="<?= Helpers::e(Helpers::asset('js/animations.js')) ?>"></script>
+<script defer src="<?= Helpers::e(Helpers::asset('js/toast.js')) ?>"></script>
+<script defer src="<?= Helpers::e(Helpers::asset('js/app.js')) ?>"></script>
+<script defer src="<?= Helpers::e(Helpers::asset('js/gallery.js')) ?>"></script>
+<script defer src="<?= Helpers::e(Helpers::asset('js/filters.js')) ?>"></script>
+<script defer src="<?= Helpers::e(Helpers::asset('js/upload.js')) ?>"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" crossorigin="anonymous"></script>
 <?= $extraScripts ?? '' ?>
 
 </body>

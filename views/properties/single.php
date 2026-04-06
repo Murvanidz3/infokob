@@ -22,6 +22,24 @@ if ($mainFile === '' && $gallery !== []) {
 }
 $mainUrl = $mainFile !== '' ? Image::getImageUrl($mainFile, 'original') : Helpers::asset('img/placeholder.svg');
 
+$photoList = [];
+foreach ($gallery as $img) {
+    $fn = (string) ($img['filename'] ?? '');
+    if ($fn === '') {
+        continue;
+    }
+    $photoList[] = [
+        'thumb' => Image::getImageUrl($fn, 'thumb'),
+        'full' => Image::getImageUrl($fn, 'original'),
+    ];
+}
+if ($photoList === [] && $mainFile !== '') {
+    $photoList[] = [
+        'thumb' => Image::getImageUrl($mainFile, 'thumb'),
+        'full' => Image::getImageUrl($mainFile, 'original'),
+    ];
+}
+
 $email = (string) ($p['contact_email'] ?? $p['user_email'] ?? '');
 $name = (string) ($p['contact_name'] ?? $p['user_name'] ?? '');
 
@@ -82,30 +100,53 @@ if ($mapsKey !== '' && $lat !== null && $lng !== null) {
 
     <div class="property-single__grid">
         <div class="property-single__main">
+            <p class="property-single__loc">
+                <?php if (($p['district'] ?? '') !== ''): ?>📍 <?= Helpers::e((string) $p['district']) ?>, <?php endif; ?><?= Helpers::e(Helpers::__('nav_kobuleti')) ?>
+                <?php if (($p['sea_distance_m'] ?? null) !== null): ?> · 🌊 <?= Helpers::e((string) $p['sea_distance_m']) ?> <?= Helpers::e(Helpers::__('stat_sea')) ?><?php endif; ?>
+            </p>
+
             <h1 class="property-single__title"><?= Helpers::e($title) ?></h1>
 
-            <div class="property-gallery">
+            <?php if ($photoList !== []): ?>
+                <?php $photoCount = count($photoList); ?>
+                <div class="property-gallery-collage">
+                    <?php foreach ($photoList as $idx => $ph): ?>
+                        <?php if ($idx === 0): ?>
+                            <div class="property-gallery-collage__cell property-gallery-collage__main">
+                                <img src="<?= Helpers::e($ph['full']) ?>" alt="<?= Helpers::e($title) ?>" loading="eager" width="900" height="600" data-lightbox="<?= Helpers::e($ph['full']) ?>" data-full="<?= Helpers::e($ph['full']) ?>">
+                            </div>
+                        <?php elseif ($idx < 5): ?>
+                            <div class="property-gallery-collage__cell">
+                                <img src="<?= Helpers::e($ph['full']) ?>" alt="" loading="lazy" data-lightbox="<?= Helpers::e($ph['full']) ?>" data-full="<?= Helpers::e($ph['full']) ?>">
+                                <?php if ($idx === 4 && $photoCount > 5): ?>
+                                    <div class="property-gallery-collage__more">
+                                        <button type="button" class="btn btn--primary btn--sm btn--pill" data-lightbox="<?= Helpers::e($ph['full']) ?>">
+                                            📷 <?= Helpers::e(Helpers::__('user_existing_photos')) ?> (<?= (int) $photoCount ?>)
+                                        </button>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="property-gallery-mobile">
+                    <div class="property-gallery-mobile__track" id="gallery-mobile-track">
+                        <?php foreach ($photoList as $ph): ?>
+                            <div class="property-gallery-mobile__slide">
+                                <img src="<?= Helpers::e($ph['full']) ?>" alt="" loading="lazy" data-lightbox="<?= Helpers::e($ph['full']) ?>">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="property-gallery-mobile__dots" id="gallery-mobile-dots" aria-hidden="true"></div>
+                </div>
+            <?php else: ?>
                 <div class="property-gallery__main">
                     <img id="gallery-main" src="<?= Helpers::e($mainUrl) ?>" alt="<?= Helpers::e($title) ?>" loading="eager" width="900" height="600">
                 </div>
-                <?php if ($gallery !== []): ?>
-                    <div class="property-gallery__thumbs">
-                        <?php foreach ($gallery as $idx => $img): ?>
-                            <?php
-                            $fn = (string) ($img['filename'] ?? '');
-                            $url = $fn !== '' ? Image::getImageUrl($fn, 'thumb') : Helpers::asset('img/placeholder.svg');
-                            $full = $fn !== '' ? Image::getImageUrl($fn, 'original') : $url;
-                            ?>
-                            <button type="button" class="property-gallery__thumb<?= $idx === 0 ? ' is-active' : '' ?>"
-                                    data-full="<?= Helpers::e($full) ?>"
-                                    aria-label="Photo <?= (int) ($idx + 1) ?>">
-                                <img src="<?= Helpers::e($url) ?>" alt="" loading="lazy" width="120" height="90">
-                            </button>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
+            <?php endif; ?>
 
+            <h3 class="section__title" style="font-size:1.125rem;margin-bottom:var(--space-4)"><?= Helpers::e(Helpers::__('property_specs_h')) ?></h3>
             <div class="spec-grid">
                 <?php if (($p['rooms'] ?? null) !== null && $p['rooms'] !== ''): ?>
                     <div class="spec-item"><i class="ph ph-bed"></i><span><?= Helpers::e(Helpers::__('spec_rooms')) ?></span><strong><?= Helpers::e((string) $p['rooms']) ?></strong></div>
@@ -116,18 +157,23 @@ if ($mapsKey !== '' && $lat !== null && $lng !== null) {
                 <?php if (($p['floors_total'] ?? null) !== null): ?>
                     <div class="spec-item"><i class="ph ph-buildings"></i><span><?= Helpers::e(Helpers::__('spec_floors')) ?></span><strong><?= Helpers::e((string) ($p['floor_number'] ?? '—')) ?> / <?= Helpers::e((string) $p['floors_total']) ?></strong></div>
                 <?php endif; ?>
+                <?php if (($p['bathrooms'] ?? null) !== null && $p['bathrooms'] !== ''): ?>
+                    <div class="spec-item"><i class="ph ph-bathtub"></i><span><?= Helpers::e(Helpers::__('spec_bath')) ?></span><strong><?= Helpers::e((string) $p['bathrooms']) ?></strong></div>
+                <?php endif; ?>
                 <?php if (($p['sea_distance_m'] ?? null) !== null): ?>
                     <div class="spec-item"><i class="ph ph-waves"></i><span><?= Helpers::e(Helpers::__('spec_sea')) ?></span><strong><?= Helpers::e((string) $p['sea_distance_m']) ?> m</strong></div>
                 <?php endif; ?>
             </div>
 
             <div class="property-body">
+                <h3 class="section__title" style="font-size:1.125rem;margin-bottom:var(--space-3)"><?= Helpers::e(Helpers::__('property_about_h')) ?></h3>
                 <p class="property-meta-line"><?= Helpers::e($typeLabel) ?> · <?= Helpers::e($dealLabel) ?><?php if (($p['district'] ?? '') !== ''): ?> · <?= Helpers::e((string) $p['district']) ?><?php endif; ?></p>
                 <div class="property-description rte"><?= nl2br(Helpers::e((string) ($p['description'] ?? ''))) ?></div>
                 <?php if ($features !== []): ?>
+                    <h3 class="section__title" style="font-size:1.125rem;margin:var(--space-6) 0 var(--space-3)"><?= Helpers::e(Helpers::__('property_comfort_h')) ?></h3>
                     <div class="tag-row">
                         <?php foreach ($features as $tag): ?>
-                            <span class="tag-pill"><?= Helpers::e($tag) ?></span>
+                            <span class="tag-pill">✓ <?= Helpers::e($tag) ?></span>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
@@ -186,16 +232,31 @@ if ($mapsKey !== '' && $lat !== null && $lng !== null) {
     <?php endif; ?>
 </div>
 
+<div id="property-lightbox" class="lightbox" hidden>
+    <button type="button" class="lightbox__close" aria-label="Close">×</button>
+    <img id="property-lightbox-img" class="lightbox__img" alt="">
+</div>
 <script>
-(function(){
-  var main = document.getElementById('gallery-main');
-  document.querySelectorAll('.property-gallery__thumb').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var full = btn.getAttribute('data-full');
-      if (main && full) main.src = full;
-      document.querySelectorAll('.property-gallery__thumb').forEach(function(b){ b.classList.remove('is-active'); });
-      btn.classList.add('is-active');
+(function () {
+  var track = document.getElementById('gallery-mobile-track');
+  var dots = document.getElementById('gallery-mobile-dots');
+  if (track && dots) {
+    var slides = track.querySelectorAll('.property-gallery-mobile__slide');
+    slides.forEach(function (_, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      if (i === 0) b.classList.add('is-active');
+      b.addEventListener('click', function () {
+        track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+      });
+      dots.appendChild(b);
     });
-  });
+    track.addEventListener('scroll', function () {
+      var i = Math.round(track.scrollLeft / track.clientWidth);
+      dots.querySelectorAll('button').forEach(function (btn, j) {
+        btn.classList.toggle('is-active', j === i);
+      });
+    });
+  }
 })();
 </script>

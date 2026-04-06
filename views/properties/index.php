@@ -16,11 +16,18 @@ $typesSel = $f['types'] ?? [];
 ?>
 <div class="listings-page">
     <div class="listings-top container">
-        <?php View::partial('search-bar', ['variant' => 'compact', 'deal' => $deal]); ?>
+        <div class="listings-top__row">
+            <?php View::partial('search-bar', ['variant' => 'compact', 'deal' => $deal]); ?>
+            <div class="layout-toggle" role="group" aria-label="View">
+                <button type="button" class="is-active" id="layout-grid" title="Grid">⊞</button>
+                <button type="button" id="layout-list" title="List">☰</button>
+            </div>
+        </div>
     </div>
 
     <div class="container listings-layout">
-        <aside class="listings-sidebar" aria-label="<?= Helpers::e(Helpers::__('filter_title')) ?>">
+        <button type="button" class="filter-sheet-trigger" id="filter-sheet-open"><?= Helpers::e(Helpers::__('filter_title')) ?> ⚙</button>
+        <aside class="listings-sidebar" id="listings-sidebar" aria-label="<?= Helpers::e(Helpers::__('filter_title')) ?>">
             <form id="listing-filters" class="filter-panel" method="get" action="<?= Helpers::e(rtrim(BASE_URL, '/') . '/listings') ?>">
                 <h3 class="filter-panel__title"><?= Helpers::e(Helpers::__('filter_title')) ?></h3>
 
@@ -147,3 +154,29 @@ $typesSel = $f['types'] ?? [];
         </div>
     </div>
 </div>
+<script>
+(function () {
+  var g = document.getElementById('layout-grid');
+  var l = document.getElementById('layout-list');
+  var r = document.getElementById('listing-results');
+  if (g && l && r) {
+    g.addEventListener('click', function () {
+      r.classList.remove('list-view');
+      g.classList.add('is-active');
+      l.classList.remove('is-active');
+    });
+    l.addEventListener('click', function () {
+      r.classList.add('list-view');
+      l.classList.add('is-active');
+      g.classList.remove('is-active');
+    });
+  }
+  var open = document.getElementById('filter-sheet-open');
+  var side = document.getElementById('listings-sidebar');
+  if (open && side) {
+    open.addEventListener('click', function () {
+      side.classList.toggle('is-open');
+    });
+  }
+})();
+</script>

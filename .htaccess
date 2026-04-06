@@ -2,7 +2,12 @@ RewriteEngine On
 RewriteBase /
 
 # Block direct HTTP access to application internals (static files under /public are still allowed)
-RewriteRule ^(config|app|lang|views|install|storage|bootstrap\.php)(/|$) - [F,L]
+RewriteRule ^(config|app|views|install|storage|bootstrap\.php)(/|$) - [F,L]
+# Block direct HTTP access to translation PHP files only (folder on disk is /lang/)
+RewriteRule ^lang/.+\.php$ - [F,L]
+
+# Legacy public URLs /lang/ka|ru|en → switcher (before -f/-d; avoids 403 from real /lang/ directory)
+RewriteRule ^lang/(ka|ru|en)/?$ /switch-lang.php?code=$1 [QSA,R=302,L]
 
 # Serve existing files and directories directly
 RewriteCond %{REQUEST_FILENAME} -f [OR]
