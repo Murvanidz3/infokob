@@ -11,6 +11,8 @@ return [
     ['GET', '/dashboard', 'AdminController@dashboard'],
     ['GET', '/properties', 'AdminController@propertyIndex'],
     ['GET', '/properties/{id}', 'AdminController@propertyShow'],
+    ['GET', '/properties/{id}/edit', 'AdminController@propertyEditForm'],
+    ['POST', '/properties/{id}/edit', 'AdminController@propertyUpdate'],
     ['POST', '/properties/{id}/approve', 'AdminController@propertyApprove'],
     ['POST', '/properties/{id}/reject', 'AdminController@propertyReject'],
     ['POST', '/properties/{id}/featured', 'AdminController@propertyFeaturedSave'],

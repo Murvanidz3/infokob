@@ -90,6 +90,93 @@ class AdminController
         ], 'admin');
     }
 
+    public function propertyEditForm(array $params = []): void
+    {
+        Auth::requireAdmin();
+        $id = (int) ($params['id'] ?? 0);
+        $prop = Property::getByIdForAdmin($id);
+        if ($prop === null) {
+            http_response_code(404);
+            $meta = ['title' => '404', 'description' => ''];
+            View::render('errors/404', ['meta' => $meta], 'admin');
+            return;
+        }
+        $tr = Property::getTranslationsMap($id);
+        $images = Property::getImages($id);
+        $meta = ['title' => Helpers::__('user_edit_title') . ' #' . $id . ' — Admin', 'description' => ''];
+        View::render('admin/property-edit', [
+            'meta' => $meta,
+            'property' => $prop,
+            'translations' => $tr,
+            'images' => $images,
+        ], 'admin');
+    }
+
+    public function propertyUpdate(array $params = []): void
+    {
+        Auth::requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            Helpers::redirect(BASE_URL . '/properties');
+        }
+        if (!Helpers::verifyCsrf($_POST['csrf'] ?? null)) {
+            Helpers::setFlash('error', Helpers::__('error_csrf'));
+            Helpers::redirect(BASE_URL . '/properties');
+        }
+        $id = (int) ($params['id'] ?? 0);
+        $prop = Property::getByIdForAdmin($id);
+        if ($prop === null) {
+            Helpers::setFlash('error', Helpers::__('admin_error_not_found'));
+            Helpers::redirect(BASE_URL . '/properties');
+        }
+
+        $title = trim((string) ($_POST['title'] ?? ''));
+        $desc = trim((string) ($_POST['description'] ?? ''));
+        if ($title === '' || mb_strlen($desc) < 50) {
+            Helpers::setFlash('error', Helpers::__('user_error_validation'));
+            Helpers::redirect(BASE_URL . '/properties/' . $id . '/edit');
+        }
+
+        $data = self::buildPayloadFromPost();
+        if ($data['contact_phone'] === null || $data['contact_phone'] === '') {
+            Helpers::setFlash('error', Helpers::__('user_error_phone'));
+            Helpers::redirect(BASE_URL . '/properties/' . $id . '/edit');
+        }
+
+        $slug = Property::generateUniqueSlug($title);
+        $tr = self::tripleTranslation($title, $desc);
+        $newFiles = Helpers::restructureUploadedFiles('images');
+        $deleteIds = [];
+        if (!empty($_POST['delete_images']) && is_array($_POST['delete_images'])) {
+            foreach ($_POST['delete_images'] as $imgId) {
+                $deleteIds[] = (int) $imgId;
+            }
+        }
+
+        $before = count(Property::getImages($id));
+        if ($before - count($deleteIds) + count($newFiles) < 1) {
+            Helpers::setFlash('error', Helpers::__('user_error_images'));
+            Helpers::redirect(BASE_URL . '/properties/' . $id . '/edit');
+        }
+
+        try {
+            Property::updateForUser(
+                $id,
+                (int) ($prop['user_id'] ?? 0),
+                $slug,
+                $data,
+                $tr,
+                $newFiles,
+                $deleteIds
+            );
+        } catch (Throwable $e) {
+            Helpers::setFlash('error', Helpers::__('user_error_generic'));
+            Helpers::redirect(BASE_URL . '/properties/' . $id . '/edit');
+        }
+
+        Helpers::setFlash('success', Helpers::__('user_listing_updated'));
+        Helpers::redirect(BASE_URL . '/properties/' . $id);
+    }
+
     public function propertyApprove(array $params = []): void
     {
         Auth::requireAdmin();
@@ -260,5 +347,79 @@ class AdminController
         Setting::resetCache();
         Helpers::setFlash('success', Helpers::__('admin_settings_saved'));
         Helpers::redirect(BASE_URL . '/settings');
+    }
+
+    /**
+     * @return array<string, array{title:string,description:string}>
+     */
+    private static function tripleTranslation(string $title, string $desc): array
+    {
+        $b = ['title' => $title, 'description' => $desc];
+        return ['ka' => $b, 'ru' => $b, 'en' => $b];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function buildPayloadFromPost(): array
+    {
+        $type = (string) ($_POST['type'] ?? 'apartment');
+        $allowedT = ['apartment', 'house', 'cottage', 'land', 'commercial', 'hotel_room'];
+        if (!in_array($type, $allowedT, true)) {
+            $type = 'apartment';
+        }
+        $deal = (string) ($_POST['deal_type'] ?? 'sale');
+        if (!in_array($deal, ['sale', 'rent', 'daily_rent'], true)) {
+            $deal = 'sale';
+        }
+        $currency = (string) ($_POST['currency'] ?? 'USD');
+        if (!in_array($currency, ['USD', 'GEL', 'EUR'], true)) {
+            $currency = 'USD';
+        }
+        $price = isset($_POST['price']) && $_POST['price'] !== '' ? (float) $_POST['price'] : null;
+
+        return [
+            'type' => $type,
+            'deal_type' => $deal,
+            'price' => $price,
+            'currency' => $currency,
+            'price_negotiable' => !empty($_POST['price_negotiable']) ? 1 : 0,
+            'area_m2' => self::nullableFloat($_POST['area_m2'] ?? null),
+            'rooms' => self::nullableInt($_POST['rooms'] ?? null),
+            'bedrooms' => self::nullableInt($_POST['bedrooms'] ?? null),
+            'bathrooms' => self::nullableInt($_POST['bathrooms'] ?? null),
+            'floors_total' => self::nullableInt($_POST['floors_total'] ?? null),
+            'floor_number' => self::nullableInt($_POST['floor_number'] ?? null),
+            'has_pool' => !empty($_POST['has_pool']) ? 1 : 0,
+            'has_garage' => !empty($_POST['has_garage']) ? 1 : 0,
+            'has_balcony' => !empty($_POST['has_balcony']) ? 1 : 0,
+            'has_garden' => !empty($_POST['has_garden']) ? 1 : 0,
+            'sea_distance_m' => self::nullableInt($_POST['sea_distance_m'] ?? null),
+            'address' => trim((string) ($_POST['address'] ?? '')) ?: null,
+            'district' => trim((string) ($_POST['district'] ?? '')) ?: null,
+            'lat' => self::nullableFloat($_POST['lat'] ?? null),
+            'lng' => self::nullableFloat($_POST['lng'] ?? null),
+            'contact_name' => trim((string) ($_POST['contact_name'] ?? '')) ?: null,
+            'contact_phone' => trim((string) ($_POST['contact_phone'] ?? '')) ?: null,
+            'contact_whatsapp' => trim((string) ($_POST['contact_whatsapp'] ?? '')) ?: null,
+            'contact_email' => trim((string) ($_POST['contact_email'] ?? '')) ?: null,
+            'contact_telegram' => trim((string) ($_POST['contact_telegram'] ?? '')) ?: null,
+        ];
+    }
+
+    private static function nullableInt(mixed $v): ?int
+    {
+        if ($v === null || $v === '') {
+            return null;
+        }
+        return (int) $v;
+    }
+
+    private static function nullableFloat(mixed $v): ?float
+    {
+        if ($v === null || $v === '') {
+            return null;
+        }
+        return (float) $v;
     }
 }

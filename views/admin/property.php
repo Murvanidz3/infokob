@@ -86,11 +86,21 @@ $publicUrl = PUBLIC_BASE_URL . '/listings/' . rawurlencode($slug);
     <div class="admin-actions">
         <?php if (in_array($status, ['pending', 'rejected'], true)): ?>
             <div class="admin-card">
+                <h2 class="admin-card__title"><?= Helpers::e(Helpers::__('user_edit_title')) ?></h2>
+                <a class="btn btn--ghost btn--pill btn--block" href="<?= Helpers::e(BASE_URL) ?>/properties/<?= $id ?>/edit"><?= Helpers::e(Helpers::__('user_edit_title')) ?></a>
+            </div>
+
+            <div class="admin-card">
                 <h2 class="admin-card__title"><?= Helpers::e(Helpers::__('admin_action_approve')) ?></h2>
                 <form method="post" action="<?= Helpers::e(BASE_URL) ?>/properties/<?= $id ?>/approve">
                     <input type="hidden" name="csrf" value="<?= Helpers::e(Helpers::csrfToken()) ?>">
                     <button type="submit" class="btn btn--primary btn--pill btn--block"><?= Helpers::e(Helpers::__('admin_btn_approve')) ?></button>
                 </form>
+            </div>
+        <?php else: ?>
+            <div class="admin-card">
+                <h2 class="admin-card__title"><?= Helpers::e(Helpers::__('user_edit_title')) ?></h2>
+                <a class="btn btn--ghost btn--pill btn--block" href="<?= Helpers::e(BASE_URL) ?>/properties/<?= $id ?>/edit"><?= Helpers::e(Helpers::__('user_edit_title')) ?></a>
             </div>
         <?php endif; ?>
 

@@ -57,6 +57,7 @@ $q = $filters['q'];
                     </td>
                     <td>
                         <a href="<?= Helpers::e(BASE_URL) ?>/properties/<?= (int) $row['id'] ?>"><?= Helpers::e((string) ($row['title'] ?? $row['slug'])) ?></a>
+                        <br><a href="<?= Helpers::e(BASE_URL) ?>/properties/<?= (int) $row['id'] ?>/edit"><small><?= Helpers::e(Helpers::__('user_edit_title')) ?></small></a>
                     </td>
                     <td><?= Helpers::e(Helpers::__('type_' . (string) ($row['type'] ?? 'apartment'))) ?></td>
                     <td><?= Helpers::e(Helpers::formatPrice(isset($row['price']) ? (float) $row['price'] : null, (string) ($row['currency'] ?? 'USD'))) ?></td>
