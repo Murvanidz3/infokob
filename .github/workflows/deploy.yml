@@ -1,52 +1,23 @@
-# Deploy to Hostinger (FTP) + inject MySQL credentials from GitHub Secrets.
-#
-# Repository secrets (Settings → Secrets and variables → Actions):
-#   FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
-#   DB_HOST, DB_NAME, DB_USER, DB_PASSWORD  → written to config/db.local.php (file is gitignored)
-#
-# If your FTP root is not public_html, change server-dir below (e.g. /domains/yourdomain/public_html/).
-# FTP_SERVER must be the hostname from hPanel → Files → FTP Accounts (e.g. ftp.yourdomain.com), not the website URL alone.
-# If deploy still times out: try changing protocol to ftp (some accounts use plain FTP) or ftps-legacy.
-#
-# One-time on Hostinger: import install/database.sql via phpMyAdmin.
+# Placeholder workflow after repository reset (codebase removed for a fresh start).
+# Restore FTP / DB injection steps when the new project exists again.
+# Previous pattern: SamKirkland/FTP-Deploy-Action + secrets (FTP_*, DB_*) + scripts/write-db-config.php
 
-name: Deploy to Hostinger
+name: CI
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  placeholder:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Write config/db.local.php from secrets
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASSWORD }}
-        run: php scripts/write-db-config.php
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          timeout: 180000
-          security: loose
-          server-dir: /public_html/
-          exclude: |
-            **/.git*
-            **/.github/**
-            **/uploads/**
-            **/storage/cache/**
-            **/storage/logs/**
-          log-level: verbose
+      - name: Ready for new pipeline
+        run: |
+          echo "Repository was reset to an empty state."
+          echo "Replace this job with deploy/build steps when the new system is added."
