@@ -40,7 +40,36 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASS: ${{ secrets.DB_PASS }}
 
-      # ─── 3. Deploy via FTP ───────────────────────────────
+      # ─── 3. Create directories on server ──────────────────
+      - name: 📁 Create server directories
+        run: |
+          sudo apt-get install -y lftp
+          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}" <<EOF
+          mkdir -p admin/views
+          mkdir -p app/controllers
+          mkdir -p app/helpers
+          mkdir -p app/models
+          mkdir -p config
+          mkdir -p lang
+          mkdir -p public/assets/css
+          mkdir -p public/assets/img
+          mkdir -p public/assets/js
+          mkdir -p views/auth
+          mkdir -p views/errors
+          mkdir -p views/home
+          mkdir -p views/layouts
+          mkdir -p views/pages
+          mkdir -p views/partials
+          mkdir -p views/properties
+          mkdir -p views/user
+          mkdir -p uploads/properties/original
+          mkdir -p uploads/properties/medium
+          mkdir -p uploads/properties/thumb
+          mkdir -p cache
+          bye
+          EOF
+
+      # ─── 4. Deploy via FTP ───────────────────────────────
       - name: 🚀 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
