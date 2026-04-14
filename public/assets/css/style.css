@@ -150,6 +150,12 @@ button, input, select, textarea {
     line-height: inherit;
 }
 
+select {
+    color: var(--text);
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-dark);
+}
+
 button {
     cursor: pointer;
     border: none;
@@ -1266,7 +1272,7 @@ h4 { font-size: var(--font-size-lg); }
     border-radius: var(--radius-lg);
     font-size: var(--font-size-base);
     color: var(--text);
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.04);
     transition: var(--transition);
 }
 
@@ -1291,10 +1297,20 @@ h4 { font-size: var(--font-size-lg); }
 .form-select {
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%2364748B' d='M4.427 6.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 6H4.604a.25.25 0 00-.177.427z'/%3E%3C/svg%3E");
+    background-image:
+        linear-gradient(rgba(255,255,255,0.04), rgba(255,255,255,0.04)),
+        url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%2394A3B8' d='M4.427 6.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 6H4.604a.25.25 0 00-.177.427z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
+    background-position: 0 0, right 12px center;
+    background-size: 100% 100%, 16px 16px;
     padding-right: 36px;
+}
+
+/* Make native dropdown lists readable in dark theme */
+select option,
+select optgroup {
+    background: var(--bg-alt);
+    color: var(--text);
 }
 
 .form-hint {
