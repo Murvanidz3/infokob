@@ -42,6 +42,7 @@ jobs:
 
       # ─── 3. Create directories on server ──────────────────
       - name: 📁 Create server directories
+        continue-on-error: true
         run: |
           sudo apt-get install -y lftp
           lftp <<EOF
