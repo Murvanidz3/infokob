@@ -45,8 +45,8 @@ jobs:
         run: |
           sudo apt-get install -y lftp
           lftp <<EOF
-          set ssl:verify-certificate no
-          set ftp:ssl-allow yes
+          debug 3
+          set ftp:ssl-allow no
           set ftp:passive-mode yes
           open -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}"
           mirror -R -v \
