@@ -9,8 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const paginationWrap = document.getElementById('pagination-wrap');
     const totalEl = document.getElementById('results-total');
     const sortSelect = document.getElementById('sort-select');
+    const sidebar = document.getElementById('filters-sidebar');
+    const toggleBar = document.querySelector('.filter-toggle-bar');
     
     if (!form || !grid) return;
+
+    // ─── Mobile sidebar toggle ─────────────────────────────
+    if (sidebar && toggleBar) {
+        toggleBar.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+        });
+    }
     
     // ─── Deal type pills ───────────────────────────────────
     document.querySelectorAll('#deal-type-pills .filter-pill').forEach(pill => {
