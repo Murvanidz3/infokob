@@ -47,6 +47,7 @@ jobs:
           lftp <<EOF
           set ssl:verify-certificate no
           set ftp:ssl-allow yes
+          set cmd:fail-exit no
           open -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}"
           mkdir -p admin/views
           mkdir -p app/controllers
