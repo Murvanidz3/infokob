@@ -1,0 +1,23 @@
+# ─── OS & IDE ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ─── Runtime / Generated ───────────────────────────────
+cache/*.cache
+uploads/properties/original/*
+uploads/properties/medium/*
+uploads/properties/thumb/*
+
+# Keep directory structure
+!uploads/properties/original/.gitkeep
+!uploads/properties/medium/.gitkeep
+!uploads/properties/thumb/.gitkeep
+!cache/.gitkeep
+
+# ─── Logs ──────────────────────────────────────────────
+*.log
+error_log

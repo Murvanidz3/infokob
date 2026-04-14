@@ -1,23 +1,63 @@
-# Placeholder workflow after repository reset (codebase removed for a fresh start).
-# Restore FTP / DB injection steps when the new project exists again.
-# Previous pattern: SamKirkland/FTP-Deploy-Action + secrets (FTP_*, DB_*) + scripts/write-db-config.php
+# ═══════════════════════════════════════════════════════════════
+#  InfoKobuleti — Auto-Deploy to Hostinger via FTP
+#  Triggers on push to main branch
+#  
+#  Required GitHub Secrets (Settings → Secrets → Actions):
+#    FTP_SERVER    → Hostinger FTP hostname (e.g. ftp.infokobuleti.com)
+#    FTP_USERNAME  → FTP account username
+#    FTP_PASSWORD  → FTP account password
+#    DB_HOST       → MySQL host (from Hostinger hPanel → Databases)
+#    DB_NAME       → MySQL database name
+#    DB_USER       → MySQL username
+#    DB_PASS       → MySQL password
+# ═══════════════════════════════════════════════════════════════
 
-name: CI
+name: 🚀 Deploy to Hostinger
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch:   # Allow manual trigger from GitHub Actions tab
 
 jobs:
-  placeholder:
+  deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      # ─── 1. Checkout code ────────────────────────────────
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Ready for new pipeline
+      # ─── 2. Inject production database config ────────────
+      - name: 🔧 Write production config
         run: |
-          echo "Repository was reset to an empty state."
-          echo "Replace this job with deploy/build steps when the new system is added."
+          php scripts/write-prod-config.php
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+
+      # ─── 3. Deploy via FTP ───────────────────────────────
+      - name: 🚀 FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            scripts/**
+            install/**
+            cache/**
+            uploads/**
+            README.md
+            DEPLOYMENT.md
+            INSTRUCTIONS.md
+            .gitignore
