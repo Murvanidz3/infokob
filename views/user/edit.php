@@ -171,7 +171,7 @@ $trans = $property['translations']['ka'] ?? ['title' => '', 'description' => '']
                 <?php if ($img['is_main']): ?>
                 <span class="main-badge">⭐</span>
                 <?php endif; ?>
-                <label class="remove-btn" title="წაშლა">
+                <label class="remove-btn existing-remove-btn" title="წაშლა">
                     <input type="checkbox" name="delete_images[]" value="<?= $img['id'] ?>" style="display:none">
                     <i class="ph ph-x"></i>
                 </label>
@@ -202,3 +202,20 @@ $trans = $property['translations']['ka'] ?? ['title' => '', 'description' => '']
         </button>
     </div>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.existing-remove-btn').forEach(function (btn) {
+        const checkbox = btn.querySelector('input[type="checkbox"]');
+        const card = btn.closest('.upload-preview-item');
+        if (!checkbox || !card) return;
+
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('marked-delete', checkbox.checked);
+            btn.classList.toggle('active', checkbox.checked);
+        });
+    });
+});
+</script>

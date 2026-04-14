@@ -2563,6 +2563,28 @@ select optgroup {
     cursor: pointer;
 }
 
+.upload-preview-item .remove-btn.active {
+    background: rgba(239, 68, 68, 0.9);
+    color: var(--white);
+}
+
+.upload-preview-item.marked-delete::after {
+    content: 'Will be deleted';
+    position: absolute;
+    inset: 0;
+    background: rgba(239, 68, 68, 0.28);
+    border: 2px solid rgba(239, 68, 68, 0.7);
+    color: var(--white);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
 /* ─── Map ───────────────────────────────────────────────── */
 .map-container {
     border-radius: var(--radius-lg);

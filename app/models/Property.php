@@ -451,14 +451,33 @@ class Property {
                 $maxSort = $this->db->prepare("SELECT COALESCE(MAX(sort_order), -1) FROM property_images WHERE property_id = :pid");
                 $maxSort->execute([':pid' => $id]);
                 $sortStart = (int) $maxSort->fetchColumn() + 1;
+
+                $hasMainStmt = $this->db->prepare("SELECT COUNT(*) FROM property_images WHERE property_id = :pid AND is_main = 1");
+                $hasMainStmt->execute([':pid' => $id]);
+                $hasMainImage = (int)$hasMainStmt->fetchColumn() > 0;
                 
-                $imgStmt = $this->db->prepare("INSERT INTO property_images (property_id, filename, is_main, sort_order) VALUES (:pid, :filename, 0, :sort)");
+                $imgStmt = $this->db->prepare("INSERT INTO property_images (property_id, filename, is_main, sort_order) VALUES (:pid, :filename, :is_main, :sort)");
                 foreach ($data['new_images'] as $i => $filename) {
                     $imgStmt->execute([
                         ':pid' => $id,
                         ':filename' => $filename,
+                        ':is_main' => (!$hasMainImage && $i === 0) ? 1 : 0,
                         ':sort' => $sortStart + $i,
                     ]);
+                }
+            }
+
+            // Ensure at least one image is marked as main (if images exist)
+            $hasMainStmt = $this->db->prepare("SELECT COUNT(*) FROM property_images WHERE property_id = :pid AND is_main = 1");
+            $hasMainStmt->execute([':pid' => $id]);
+            $hasMain = (int)$hasMainStmt->fetchColumn() > 0;
+            if (!$hasMain) {
+                $firstImageStmt = $this->db->prepare("SELECT id FROM property_images WHERE property_id = :pid ORDER BY sort_order ASC, id ASC LIMIT 1");
+                $firstImageStmt->execute([':pid' => $id]);
+                $firstImageId = (int)$firstImageStmt->fetchColumn();
+                if ($firstImageId > 0) {
+                    $this->db->prepare("UPDATE property_images SET is_main = 1 WHERE id = :id")
+                        ->execute([':id' => $firstImageId]);
                 }
             }
             
@@ -508,11 +527,18 @@ class Property {
             
             // If deleted was main, set first remaining as main
             if ($image['is_main']) {
-                $this->db->prepare("
-                    UPDATE property_images SET is_main = 1 
-                    WHERE property_id = :pid 
-                    ORDER BY sort_order ASC LIMIT 1
-                ")->execute([':pid' => $image['property_id']]);
+                $nextStmt = $this->db->prepare("
+                    SELECT id FROM property_images
+                    WHERE property_id = :pid
+                    ORDER BY sort_order ASC, id ASC
+                    LIMIT 1
+                ");
+                $nextStmt->execute([':pid' => $image['property_id']]);
+                $nextId = (int)$nextStmt->fetchColumn();
+                if ($nextId > 0) {
+                    $this->db->prepare("UPDATE property_images SET is_main = 1 WHERE id = :id")
+                        ->execute([':id' => $nextId]);
+                }
             }
         }
     }

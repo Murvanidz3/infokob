@@ -150,29 +150,38 @@ class UserController {
         
         $title = trim($_POST['title'] ?? '');
         $description = trim($_POST['description'] ?? '');
+
+        $toNullableInt = static function($value): ?int {
+            if ($value === '' || $value === null) return null;
+            return (int)$value;
+        };
+        $toNullableFloat = static function($value): ?float {
+            if ($value === '' || $value === null) return null;
+            return (float)$value;
+        };
         
         $data = [
             'type'         => $_POST['type'] ?? $property['type'],
             'deal_type'    => $_POST['deal_type'] ?? $property['deal_type'],
-            'price'        => $_POST['price'] ?? $property['price'],
+            'price'        => $toNullableFloat($_POST['price'] ?? $property['price']),
             'currency'     => $_POST['currency'] ?? $property['currency'],
             'price_negotiable' => isset($_POST['price_negotiable']) ? 1 : 0,
-            'area_m2'      => $_POST['area_m2'] ?? null,
-            'rooms'        => $_POST['rooms'] ?? null,
-            'bedrooms'     => $_POST['bedrooms'] ?? null,
-            'bathrooms'    => $_POST['bathrooms'] ?? null,
-            'floors_total' => $_POST['floors_total'] ?? null,
-            'floor_number' => $_POST['floor_number'] ?? null,
+            'area_m2'      => $toNullableFloat($_POST['area_m2'] ?? null),
+            'rooms'        => $toNullableInt($_POST['rooms'] ?? null),
+            'bedrooms'     => $toNullableInt($_POST['bedrooms'] ?? null),
+            'bathrooms'    => $toNullableInt($_POST['bathrooms'] ?? null),
+            'floors_total' => $toNullableInt($_POST['floors_total'] ?? null),
+            'floor_number' => $toNullableInt($_POST['floor_number'] ?? null),
             'has_pool'     => isset($_POST['has_pool']) ? 1 : 0,
             'has_garage'   => isset($_POST['has_garage']) ? 1 : 0,
             'has_balcony'  => isset($_POST['has_balcony']) ? 1 : 0,
             'has_garden'   => isset($_POST['has_garden']) ? 1 : 0,
             'has_furniture'=> isset($_POST['has_furniture']) ? 1 : 0,
-            'sea_distance_m' => $_POST['sea_distance_m'] ?? null,
+            'sea_distance_m' => $toNullableInt($_POST['sea_distance_m'] ?? null),
             'address'      => $_POST['address'] ?? '',
             'district'     => $_POST['district'] ?? '',
-            'lat'          => $_POST['lat'] ?? null,
-            'lng'          => $_POST['lng'] ?? null,
+            'lat'          => $toNullableFloat($_POST['lat'] ?? null),
+            'lng'          => $toNullableFloat($_POST['lng'] ?? null),
             'contact_name' => $_POST['contact_name'] ?? '',
             'contact_phone'=> $_POST['contact_phone'] ?? '',
             'contact_whatsapp' => $_POST['contact_whatsapp'] ?? '',
@@ -182,24 +191,25 @@ class UserController {
             ],
         ];
         
-        // Handle new image uploads
-        if (!empty($_FILES['images']['name'][0])) {
-            $files = Image::restructureFiles($_FILES['images']);
-            $data['new_images'] = Image::uploadMultiple($files);
-        }
-        
-        // Handle deleted images
-        if (!empty($_POST['delete_images'])) {
-            foreach ($_POST['delete_images'] as $imgId) {
-                $this->propertyModel->deleteImage((int)$imgId);
-            }
-        }
-        
         try {
+            // Handle deleted images first
+            if (!empty($_POST['delete_images'])) {
+                foreach ((array)$_POST['delete_images'] as $imgId) {
+                    $this->propertyModel->deleteImage((int)$imgId);
+                }
+            }
+
+            // Handle new image uploads
+            if (!empty($_FILES['images']['name'][0])) {
+                $files = Image::restructureFiles($_FILES['images']);
+                $data['new_images'] = Image::uploadMultiple($files);
+            }
+
             $this->propertyModel->update($id, $data);
             flash('success', __('listing_updated'));
             redirect(BASE_URL . '/my/dashboard');
         } catch (Exception $e) {
+            error_log('User listing update failed for ID ' . $id . ': ' . $e->getMessage());
             flash('error', __('error_generic'));
             redirect(BASE_URL . '/my/listings/' . $id . '/edit');
         }

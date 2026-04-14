@@ -188,6 +188,11 @@ $trans = $property['translations']['ka'] ?? ['title' => '', 'description' => '']
                 <input type="text" name="contact_telegram" class="form-input" value="<?= e($property['contact_telegram']) ?>">
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="form-label">Contact Email</label>
+            <input type="email" name="contact_email" class="form-input" value="<?= e($property['contact_email'] ?? '') ?>">
+        </div>
     </div>
 
     <?php if (!empty($property['images'])): ?>
@@ -200,9 +205,9 @@ $trans = $property['translations']['ka'] ?? ['title' => '', 'description' => '']
                 <?php if ($img['is_main']): ?>
                 <span class="main-badge">MAIN</span>
                 <?php endif; ?>
-                <label class="form-check" style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.65);padding:4px 8px;border-radius:8px;">
-                    <input type="checkbox" name="delete_images[]" value="<?= (int)$img['id'] ?>">
-                    Delete
+                <label class="remove-btn existing-remove-btn" title="Mark for deletion">
+                    <input type="checkbox" name="delete_images[]" value="<?= (int)$img['id'] ?>" style="display:none">
+                    <i class="ph ph-trash"></i>
                 </label>
             </div>
             <?php endforeach; ?>
@@ -232,3 +237,19 @@ $trans = $property['translations']['ka'] ?? ['title' => '', 'description' => '']
 </form>
 
 <script src="<?= asset('js/upload-preview.js') ?>"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.existing-remove-btn').forEach(function (btn) {
+        const checkbox = btn.querySelector('input[type="checkbox"]');
+        const card = btn.closest('.upload-preview-item');
+        if (!checkbox || !card) return;
+
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('marked-delete', checkbox.checked);
+            btn.classList.toggle('active', checkbox.checked);
+        });
+    });
+});
+</script>
