@@ -9,7 +9,7 @@
 #    DB_HOST       → MySQL host (from Hostinger hPanel → Databases)
 #    DB_NAME       → MySQL database name
 #    DB_USER       → MySQL username
-#    DB_PASS       → MySQL password
+#    DB_PASSWORD   → MySQL password
 # ═══════════════════════════════════════════════════════════════
 
 name: 🚀 Deploy to Hostinger
@@ -38,7 +38,7 @@ jobs:
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       # ─── 3. Create directories on server ──────────────────
       - name: 📁 Create server directories

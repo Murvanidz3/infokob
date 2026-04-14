@@ -13,7 +13,7 @@ echo "🔧 Writing production configuration...\n";
 $dbHost = getenv('DB_HOST') ?: 'localhost';
 $dbName = getenv('DB_NAME') ?: 'infokobuleti';
 $dbUser = getenv('DB_USER') ?: 'root';
-$dbPass = getenv('DB_PASS') ?: '';
+$dbPass = getenv('DB_PASSWORD') ?: '';
 
 $databaseConfig = __DIR__ . '/../config/database.php';
 $content = file_get_contents($databaseConfig);
