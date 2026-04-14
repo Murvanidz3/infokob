@@ -202,7 +202,7 @@ switch (true) {
             flash('success', 'Listing updated');
             header('Location: ' . ADMIN_URL . '/listings/' . $id . '/edit');
             exit;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             error_log('Admin listing update failed for ID ' . $id . ': ' . $e->getMessage());
             $message = 'Failed to update listing';
             if (defined('APP_DEBUG') && APP_DEBUG) {

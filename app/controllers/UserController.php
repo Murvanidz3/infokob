@@ -220,7 +220,7 @@ class UserController {
             $this->propertyModel->update($id, $data);
             flash('success', __('listing_updated'));
             redirect(BASE_URL . '/my/dashboard');
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             error_log('User listing update failed for ID ' . $id . ': ' . $e->getMessage());
             $message = __('error_generic');
             if (defined('APP_DEBUG') && APP_DEBUG) {

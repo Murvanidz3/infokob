@@ -6,6 +6,7 @@
 
 class Property {
     private PDO $db;
+    private ?array $propertyColumns = null;
     
     public function __construct() {
         $this->db = Database::getInstance();
@@ -403,6 +404,7 @@ class Property {
         try {
             $fields = [];
             $params = [':id' => $id];
+            $existingColumns = $this->getPropertyColumns();
             
             $allowedFields = [
                 'type', 'deal_type', 'price', 'currency', 'price_negotiable',
@@ -414,7 +416,7 @@ class Property {
             ];
             
             foreach ($allowedFields as $field) {
-                if (array_key_exists($field, $data)) {
+                if (array_key_exists($field, $data) && in_array($field, $existingColumns, true)) {
                     $fields[] = "`{$field}` = :{$field}";
                     $params[":{$field}"] = $data[$field];
                 }
@@ -430,18 +432,37 @@ class Property {
             if (!empty($data['translations'])) {
                 foreach ($data['translations'] as $lang => $trans) {
                     if (!empty($trans['title'])) {
-                        $sql = "INSERT INTO property_translations (property_id, lang, title, description) 
-                                VALUES (:pid, :lang, :title, :desc) 
-                                ON DUPLICATE KEY UPDATE title = :title2, description = :desc2";
-                        $stmt = $this->db->prepare($sql);
-                        $stmt->execute([
-                            ':pid'   => $id,
-                            ':lang'  => $lang,
-                            ':title' => $trans['title'],
-                            ':desc'  => $trans['description'] ?? '',
-                            ':title2' => $trans['title'],
-                            ':desc2'  => $trans['description'] ?? '',
-                        ]);
+                        $checkStmt = $this->db->prepare("
+                            SELECT id FROM property_translations
+                            WHERE property_id = :pid AND lang = :lang
+                            LIMIT 1
+                        ");
+                        $checkStmt->execute([':pid' => $id, ':lang' => $lang]);
+                        $existingTranslationId = (int)$checkStmt->fetchColumn();
+
+                        if ($existingTranslationId > 0) {
+                            $updateTransStmt = $this->db->prepare("
+                                UPDATE property_translations
+                                SET title = :title, description = :desc
+                                WHERE id = :id
+                            ");
+                            $updateTransStmt->execute([
+                                ':id' => $existingTranslationId,
+                                ':title' => $trans['title'],
+                                ':desc' => $trans['description'] ?? '',
+                            ]);
+                        } else {
+                            $insertTransStmt = $this->db->prepare("
+                                INSERT INTO property_translations (property_id, lang, title, description)
+                                VALUES (:pid, :lang, :title, :desc)
+                            ");
+                            $insertTransStmt->execute([
+                                ':pid' => $id,
+                                ':lang' => $lang,
+                                ':title' => $trans['title'],
+                                ':desc' => $trans['description'] ?? '',
+                            ]);
+                        }
                     }
                 }
             }
@@ -489,6 +510,27 @@ class Property {
             $this->db->rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * Get existing columns from properties table
+     * Helps avoid crashes when production schema has drifted.
+     */
+    private function getPropertyColumns(): array {
+        if ($this->propertyColumns !== null) {
+            return $this->propertyColumns;
+        }
+
+        $stmt = $this->db->query("SHOW COLUMNS FROM properties");
+        $columns = [];
+        foreach ($stmt->fetchAll() as $row) {
+            if (!empty($row['Field'])) {
+                $columns[] = $row['Field'];
+            }
+        }
+
+        $this->propertyColumns = $columns;
+        return $this->propertyColumns;
     }
     
     /**
