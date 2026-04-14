@@ -79,6 +79,108 @@ switch (true) {
         
         require __DIR__ . '/views/layout.php';
         break;
+
+    // Edit listing form
+    case preg_match('/^\/listings\/(\d+)\/edit$/', $adminPath, $m) && $method === 'GET':
+        $property = $propertyModel->getById((int)$m[1]);
+        if (!$property) {
+            flash('error', 'Listing not found');
+            header('Location: ' . ADMIN_URL . '/listings');
+            exit;
+        }
+
+        $pageTitle = 'Edit Listing';
+
+        ob_start();
+        require __DIR__ . '/views/listing-edit.php';
+        $content = ob_get_clean();
+
+        require __DIR__ . '/views/layout.php';
+        break;
+
+    // Update listing
+    case preg_match('/^\/listings\/(\d+)\/edit$/', $adminPath, $m) && $method === 'POST':
+        verify_csrf();
+        $id = (int) $m[1];
+        $property = $propertyModel->getById($id);
+        if (!$property) {
+            flash('error', 'Listing not found');
+            header('Location: ' . ADMIN_URL . '/listings');
+            exit;
+        }
+
+        $title = trim($_POST['title'] ?? '');
+        if ($title === '') {
+            flash('error', 'Title is required');
+            header('Location: ' . ADMIN_URL . '/listings/' . $id . '/edit');
+            exit;
+        }
+
+        $featuredUntil = !empty($_POST['is_featured'])
+            ? date('Y-m-d H:i:s', strtotime('+30 days'))
+            : null;
+
+        $data = [
+            'status'       => $_POST['status'] ?? $property['status'],
+            'type'         => $_POST['type'] ?? $property['type'],
+            'deal_type'    => $_POST['deal_type'] ?? $property['deal_type'],
+            'price'        => $_POST['price'] ?? $property['price'],
+            'currency'     => $_POST['currency'] ?? $property['currency'],
+            'price_negotiable' => isset($_POST['price_negotiable']) ? 1 : 0,
+            'area_m2'      => $_POST['area_m2'] ?? null,
+            'rooms'        => $_POST['rooms'] ?? null,
+            'bedrooms'     => $_POST['bedrooms'] ?? null,
+            'bathrooms'    => $_POST['bathrooms'] ?? null,
+            'floors_total' => $_POST['floors_total'] ?? null,
+            'floor_number' => $_POST['floor_number'] ?? null,
+            'has_pool'     => isset($_POST['has_pool']) ? 1 : 0,
+            'has_garage'   => isset($_POST['has_garage']) ? 1 : 0,
+            'has_balcony'  => isset($_POST['has_balcony']) ? 1 : 0,
+            'has_garden'   => isset($_POST['has_garden']) ? 1 : 0,
+            'has_furniture'=> isset($_POST['has_furniture']) ? 1 : 0,
+            'sea_distance_m' => $_POST['sea_distance_m'] ?? null,
+            'address'      => $_POST['address'] ?? '',
+            'district'     => $_POST['district'] ?? '',
+            'lat'          => $_POST['lat'] ?? null,
+            'lng'          => $_POST['lng'] ?? null,
+            'contact_name' => $_POST['contact_name'] ?? '',
+            'contact_phone'=> $_POST['contact_phone'] ?? '',
+            'contact_whatsapp' => $_POST['contact_whatsapp'] ?? '',
+            'contact_telegram' => $_POST['contact_telegram'] ?? '',
+            'admin_note'   => trim($_POST['admin_note'] ?? ''),
+            'is_featured'  => isset($_POST['is_featured']) ? 1 : 0,
+            'featured_until' => $featuredUntil,
+            'translations' => [
+                'ka' => [
+                    'title' => $title,
+                    'description' => trim($_POST['description'] ?? ''),
+                ],
+            ],
+        ];
+
+        // Handle new image uploads
+        if (!empty($_FILES['images']['name'][0])) {
+            $files = Image::restructureFiles($_FILES['images']);
+            $data['new_images'] = Image::uploadMultiple($files);
+        }
+
+        // Handle deleted images
+        if (!empty($_POST['delete_images'])) {
+            foreach ((array)$_POST['delete_images'] as $imgId) {
+                $propertyModel->deleteImage((int)$imgId);
+            }
+        }
+
+        try {
+            $propertyModel->update($id, $data);
+            flash('success', 'Listing updated');
+            header('Location: ' . ADMIN_URL . '/listings/' . $id . '/edit');
+            exit;
+        } catch (Exception $e) {
+            flash('error', 'Failed to update listing');
+            header('Location: ' . ADMIN_URL . '/listings/' . $id . '/edit');
+            exit;
+        }
     
     // Approve listing
     case preg_match('/^\/listings\/(\d+)\/approve$/', $adminPath, $m) && $method === 'POST':

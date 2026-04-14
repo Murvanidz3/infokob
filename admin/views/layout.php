@@ -67,6 +67,19 @@
             background: rgba(255, 255, 255, 0.02);
             border-bottom: 1px solid var(--border);
         }
+        .admin-main .table-responsive {
+            max-height: calc(100vh - 220px);
+            overflow: auto;
+        }
+        .admin-main .data-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: rgba(19, 26, 43, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 1px 0 var(--border);
+        }
         .admin-main .data-table td {
             color: var(--text);
             border-bottom: 1px solid var(--border);

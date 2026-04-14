@@ -78,6 +78,10 @@
                                 <button type="submit" class="btn btn-ghost btn-sm" title="Feature 30d"><i class="ph ph-star"></i></button>
                             </form>
                             <?php endif; ?>
+
+                            <a href="<?= ADMIN_URL ?>/listings/<?= $listing['id'] ?>/edit" class="btn btn-ghost btn-sm" title="Edit listing">
+                                <i class="ph ph-pencil-simple"></i>
+                            </a>
                             
                             <form method="POST" action="<?= ADMIN_URL ?>/listings/<?= $listing['id'] ?>/delete" style="display:inline;"
                                   onsubmit="return confirm('Delete this listing?')">
