@@ -40,58 +40,25 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
-      # ─── 3. Create directories on server ──────────────────
-      - name: 📁 Create server directories
-        continue-on-error: true
+      # ─── 3. Deploy via lftp ───────────────────────────────
+      - name: 🚀 FTP Deploy via lftp
         run: |
           sudo apt-get install -y lftp
-          lftp <<EOF
+          lftp -c "
           set ssl:verify-certificate no
           set ftp:ssl-allow yes
-          set cmd:fail-exit no
-          open -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}"
-          mkdir -p admin/views
-          mkdir -p app/controllers
-          mkdir -p app/helpers
-          mkdir -p app/models
-          mkdir -p config
-          mkdir -p lang
-          mkdir -p public/assets/css
-          mkdir -p public/assets/img
-          mkdir -p public/assets/js
-          mkdir -p views/auth
-          mkdir -p views/errors
-          mkdir -p views/home
-          mkdir -p views/layouts
-          mkdir -p views/pages
-          mkdir -p views/partials
-          mkdir -p views/properties
-          mkdir -p views/user
-          mkdir -p uploads/properties/original
-          mkdir -p uploads/properties/medium
-          mkdir -p uploads/properties/thumb
-          mkdir -p cache
-          bye
-          EOF
-
-      # ─── 4. Deploy via FTP ───────────────────────────────
-      - name: 🚀 FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ./
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            scripts/**
-            install/**
-            cache/**
-            uploads/**
-            README.md
-            DEPLOYMENT.md
-            INSTRUCTIONS.md
-            .gitignore
+          set ftp:passive-mode yes
+          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_SERVER }}'
+          mirror -R -v \
+            --exclude-glob .git/ \
+            --exclude-glob .github/ \
+            --exclude-glob scripts/ \
+            --exclude-glob install/ \
+            --exclude-glob cache/ \
+            --exclude-glob uploads/ \
+            --exclude-glob README.md \
+            --exclude-glob DEPLOYMENT.md \
+            --exclude-glob INSTRUCTIONS.md \
+            --exclude-glob .gitignore \
+            ./ ./
+          quit"
