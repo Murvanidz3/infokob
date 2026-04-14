@@ -44,11 +44,11 @@ jobs:
       - name: 🚀 FTP Deploy via lftp
         run: |
           sudo apt-get install -y lftp
-          lftp -c "
+          lftp <<EOF
           set ssl:verify-certificate no
           set ftp:ssl-allow yes
           set ftp:passive-mode yes
-          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_SERVER }}'
+          open -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}"
           mirror -R -v \
             --exclude-glob .git/ \
             --exclude-glob .github/ \
@@ -61,4 +61,5 @@ jobs:
             --exclude-glob INSTRUCTIONS.md \
             --exclude-glob .gitignore \
             ./ ./
-          quit"
+          bye
+          EOF
