@@ -44,7 +44,10 @@ jobs:
       - name: 📁 Create server directories
         run: |
           sudo apt-get install -y lftp
-          lftp -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}" <<EOF
+          lftp <<EOF
+          set ssl:verify-certificate no
+          set ftp:ssl-allow yes
+          open -u "${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_SERVER }}"
           mkdir -p admin/views
           mkdir -p app/controllers
           mkdir -p app/helpers
