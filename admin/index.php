@@ -128,13 +128,29 @@ switch (true) {
             if ($value === '' || $value === null) return null;
             return (float)$value;
         };
+        $status = $_POST['status'] ?? $property['status'];
+        if (!in_array($status, PROPERTY_STATUSES, true)) {
+            $status = $property['status'];
+        }
+        $type = $_POST['type'] ?? $property['type'];
+        if (!in_array($type, PROPERTY_TYPES, true)) {
+            $type = $property['type'];
+        }
+        $dealType = $_POST['deal_type'] ?? $property['deal_type'];
+        if (!in_array($dealType, DEAL_TYPES, true)) {
+            $dealType = $property['deal_type'];
+        }
+        $currency = $_POST['currency'] ?? $property['currency'];
+        if (!in_array($currency, CURRENCIES, true)) {
+            $currency = $property['currency'];
+        }
 
         $data = [
-            'status'       => $_POST['status'] ?? $property['status'],
-            'type'         => $_POST['type'] ?? $property['type'],
-            'deal_type'    => $_POST['deal_type'] ?? $property['deal_type'],
+            'status'       => $status,
+            'type'         => $type,
+            'deal_type'    => $dealType,
             'price'        => $toNullableFloat($_POST['price'] ?? $property['price']),
-            'currency'     => $_POST['currency'] ?? $property['currency'],
+            'currency'     => $currency,
             'price_negotiable' => isset($_POST['price_negotiable']) ? 1 : 0,
             'area_m2'      => $toNullableFloat($_POST['area_m2'] ?? null),
             'rooms'        => $toNullableInt($_POST['rooms'] ?? null),
@@ -188,7 +204,11 @@ switch (true) {
             exit;
         } catch (Exception $e) {
             error_log('Admin listing update failed for ID ' . $id . ': ' . $e->getMessage());
-            flash('error', 'Failed to update listing');
+            $message = 'Failed to update listing';
+            if (defined('APP_DEBUG') && APP_DEBUG) {
+                $message .= ': ' . $e->getMessage();
+            }
+            flash('error', $message);
             header('Location: ' . ADMIN_URL . '/listings/' . $id . '/edit');
             exit;
         }

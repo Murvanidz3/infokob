@@ -159,12 +159,24 @@ class UserController {
             if ($value === '' || $value === null) return null;
             return (float)$value;
         };
+        $type = $_POST['type'] ?? $property['type'];
+        if (!in_array($type, PROPERTY_TYPES, true)) {
+            $type = $property['type'];
+        }
+        $dealType = $_POST['deal_type'] ?? $property['deal_type'];
+        if (!in_array($dealType, DEAL_TYPES, true)) {
+            $dealType = $property['deal_type'];
+        }
+        $currency = $_POST['currency'] ?? $property['currency'];
+        if (!in_array($currency, CURRENCIES, true)) {
+            $currency = $property['currency'];
+        }
         
         $data = [
-            'type'         => $_POST['type'] ?? $property['type'],
-            'deal_type'    => $_POST['deal_type'] ?? $property['deal_type'],
+            'type'         => $type,
+            'deal_type'    => $dealType,
             'price'        => $toNullableFloat($_POST['price'] ?? $property['price']),
-            'currency'     => $_POST['currency'] ?? $property['currency'],
+            'currency'     => $currency,
             'price_negotiable' => isset($_POST['price_negotiable']) ? 1 : 0,
             'area_m2'      => $toNullableFloat($_POST['area_m2'] ?? null),
             'rooms'        => $toNullableInt($_POST['rooms'] ?? null),
@@ -210,7 +222,11 @@ class UserController {
             redirect(BASE_URL . '/my/dashboard');
         } catch (Exception $e) {
             error_log('User listing update failed for ID ' . $id . ': ' . $e->getMessage());
-            flash('error', __('error_generic'));
+            $message = __('error_generic');
+            if (defined('APP_DEBUG') && APP_DEBUG) {
+                $message .= ': ' . $e->getMessage();
+            }
+            flash('error', $message);
             redirect(BASE_URL . '/my/listings/' . $id . '/edit');
         }
     }
