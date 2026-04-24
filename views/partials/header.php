@@ -1,6 +1,10 @@
-<?php $currentLang = Language::get(); $langLabels = Language::getShortLabels(); ?>
+<?php
+$currentLang = Language::get();
+$langOptions = Language::getOptions();
+$currentLangLabel = $langOptions[$currentLang] ?? 'KA';
+?>
 
-<header class="site-header" id="site-header" x-data="{ mobileOpen: false }">
+<header class="site-header" id="site-header" x-data="{ mobileOpen: false, langOpen: false, drawerLangOpen: false }" @keydown.escape.window="mobileOpen = false; langOpen = false; drawerLangOpen = false">
     <div class="header-inner">
         <!-- Logo -->
         <a href="<?= BASE_URL ?>" class="header-logo">
@@ -31,31 +35,36 @@
         
         <!-- Actions -->
         <div class="header-actions">
-            <?php if (Auth::isLoggedIn()): ?>
-                <a href="<?= BASE_URL ?>/my/dashboard" class="btn btn-ghost btn-sm hide-mobile">
-                    <i class="ph ph-user"></i>
-                    <?= e(Auth::user()['name']) ?>
-                </a>
-            <?php else: ?>
-                <a href="<?= BASE_URL ?>/login" class="btn btn-ghost btn-sm hide-mobile">
-                    <?= __('nav_login') ?>
-                </a>
-            <?php endif; ?>
-            
             <a href="<?= Auth::isLoggedIn() ? BASE_URL . '/my/listings/create' : BASE_URL . '/login' ?>" 
                class="btn btn-accent btn-sm hide-mobile">
                 <i class="ph ph-plus"></i>
                 <?= __('nav_add_listing') ?>
             </a>
 
-            <!-- Language Switcher -->
-            <div class="lang-switcher">
-                <?php foreach ($langLabels as $code => $label): ?>
-                <a href="<?= BASE_URL ?>/lang/<?= $code ?>" 
-                   class="<?= $currentLang === $code ? 'active' : '' ?>">
-                    <?= $label ?>
+            <?php if (Auth::isLoggedIn()): ?>
+                <a href="<?= BASE_URL ?>/my/dashboard" class="btn btn-ghost btn-sm hide-mobile">
+                    <i class="ph ph-user"></i>
+                    <?= e(Auth::user()['name']) ?>
                 </a>
-                <?php endforeach; ?>
+            <?php else: ?>
+                <a href="<?= BASE_URL ?>/login" class="btn btn-accent btn-sm hide-mobile">
+                    <?= __('nav_login') ?>
+                </a>
+            <?php endif; ?>
+
+            <!-- Language dropdown (desktop) -->
+            <div class="lang-dropdown hide-mobile" @click.outside="langOpen = false">
+                <button type="button" class="lang-dropdown-trigger" @click="langOpen = !langOpen" :aria-expanded="langOpen" aria-haspopup="listbox">
+                    <span><?= e($currentLangLabel) ?></span>
+                    <i class="ph ph-caret-down lang-dropdown-caret" :class="{ 'is-open': langOpen }"></i>
+                </button>
+                <div class="lang-dropdown-panel" x-show="langOpen" x-cloak x-transition.opacity.duration.150ms>
+                    <?php foreach ($langOptions as $code => $label): ?>
+                    <a href="<?= BASE_URL ?>/lang/<?= $code ?>" class="<?= $currentLang === $code ? 'is-active' : '' ?>">
+                        <?= e($label) ?>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
             
             <!-- Mobile Menu Toggle -->
@@ -130,13 +139,19 @@
             <?php endif; ?>
         </nav>
         
-        <div class="mobile-lang">
-            <?php foreach ($langLabels as $code => $label): ?>
-            <a href="<?= BASE_URL ?>/lang/<?= $code ?>" 
-               class="<?= $currentLang === $code ? 'active' : '' ?>">
-                <?= $label ?>
-            </a>
-            <?php endforeach; ?>
+        <div class="mobile-lang-dropdown">
+            <button type="button" class="mobile-lang-trigger" @click="drawerLangOpen = !drawerLangOpen" :aria-expanded="drawerLangOpen">
+                <i class="ph ph-globe"></i>
+                <span><?= e($currentLangLabel) ?></span>
+                <i class="ph ph-caret-down" :class="{ 'is-rotated': drawerLangOpen }"></i>
+            </button>
+            <div class="mobile-lang-panel" x-show="drawerLangOpen" x-cloak x-transition.opacity.duration.150ms>
+                <?php foreach ($langOptions as $code => $label): ?>
+                <a href="<?= BASE_URL ?>/lang/<?= $code ?>" class="<?= $currentLang === $code ? 'is-active' : '' ?>">
+                    <?= e($label) ?>
+                </a>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </header>

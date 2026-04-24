@@ -24,7 +24,8 @@ RewriteEngine On
 RewriteRule ^config/ - [F,L]
 RewriteRule ^app/ - [F,L]
 RewriteRule ^install/ - [F,L]
-RewriteRule ^lang/ - [F,L]
+# Block direct HTTP access to language PHP files only; allow /lang/{code} app routes
+RewriteRule ^lang/.+\.php$ - [F,L]
 RewriteRule ^cache/ - [F,L]
 
 # ─── Allow direct access to existing files/dirs ────────────

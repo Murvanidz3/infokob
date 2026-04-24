@@ -44,11 +44,15 @@ class PageController {
     }
     
     public function hotels() {
-        $_GET['type'] = 'hotel_room';
-        $_GET['sort'] = $_GET['sort'] ?? 'newest';
+        $hotelIds = [1, 2, 3, 4, 5, 6];
         
-        SEO::set(__('menu_hotels') . ' | ' . SITE_NAME, __('menu_hotels_subtitle'));
-        (new PropertyController())->index();
+        SEO::set(__('menu_hotels') . ' | ' . SITE_NAME, __('hotels_page_meta_desc'));
+        
+        ob_start();
+        require VIEW_PATH . '/pages/hotels.php';
+        $content = ob_get_clean();
+        
+        require VIEW_PATH . '/layouts/main.php';
     }
     
     public function announcements() {
