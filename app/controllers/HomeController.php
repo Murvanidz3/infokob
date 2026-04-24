@@ -12,9 +12,6 @@ class HomeController {
         // Get featured listings
         $featured = $propertyModel->getFeatured(6);
         
-        // Get homepage stats
-        $stats = $propertyModel->getStats();
-        
         // SEO
         SEO::set(
             __('hero_title') . ' | ' . SITE_NAME,

@@ -1,7 +1,7 @@
 <?php
 /**
  * Homepage View
- * Full-width hero, stats, featured listings, how it works, Kobuleti teaser
+ * Hero, featured listings, how it works, Kobuleti teaser
  */
 ?>
 
@@ -68,34 +68,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-</section>
-
-<!-- ═══ STATS BAR ═══ -->
-<section class="stats-bar">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-icon">🏠</div>
-                <div class="stat-number" data-count="<?= $stats['listings'] ?? 0 ?>">0</div>
-                <div class="stat-label"><?= __('stats_listings') ?></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">🌊</div>
-                <div class="stat-number" data-count="<?= $stats['min_sea'] ?? 50 ?>">0</div>
-                <div class="stat-label"><?= __('stats_sea') ?></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">👤</div>
-                <div class="stat-number" data-count="<?= $stats['users'] ?? 0 ?>">0</div>
-                <div class="stat-label"><?= __('stats_users') ?></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">✅</div>
-                <div class="stat-number" data-count="<?= $stats['sold'] ?? 0 ?>">0</div>
-                <div class="stat-label"><?= __('stats_sold') ?></div>
-            </div>
         </div>
     </div>
 </section>
