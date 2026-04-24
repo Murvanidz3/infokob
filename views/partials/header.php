@@ -9,14 +9,23 @@
         
         <!-- Desktop Nav -->
         <nav class="header-nav">
-            <a href="<?= BASE_URL ?>/listings" class="<?= isActiveRoute('listings') ? 'active' : '' ?>">
-                <?= __('nav_listings') ?>
+            <a href="<?= BASE_URL ?>" class="<?= isActiveRoute('') ? 'active' : '' ?>">
+                <?= __('menu_real_estate') ?>
             </a>
-            <a href="<?= BASE_URL ?>/kobuleti" class="<?= isActiveRoute('kobuleti') ? 'active' : '' ?>">
-                <?= __('nav_kobuleti') ?>
+            <a href="<?= BASE_URL ?>/hotels" class="<?= isActiveRoute('hotels') ? 'active' : '' ?>">
+                <?= __('menu_hotels') ?>
             </a>
-            <a href="<?= BASE_URL ?>/contact" class="<?= isActiveRoute('contact') ? 'active' : '' ?>">
-                <?= __('nav_contact') ?>
+            <a href="<?= BASE_URL ?>/announcements" class="<?= isActiveRoute('announcements') ? 'active' : '' ?>">
+                <?= __('menu_announcements') ?>
+            </a>
+            <a href="<?= BASE_URL ?>/employment" class="<?= isActiveRoute('employment') ? 'active' : '' ?>">
+                <?= __('menu_employment') ?>
+            </a>
+            <a href="<?= BASE_URL ?>/education" class="<?= isActiveRoute('education') ? 'active' : '' ?>">
+                <?= __('menu_education') ?>
+            </a>
+            <a href="<?= BASE_URL ?>/tourism" class="<?= isActiveRoute('tourism') ? 'active' : '' ?>">
+                <?= __('menu_tourism') ?>
             </a>
         </nav>
         
@@ -71,14 +80,23 @@
         </div>
         
         <nav class="mobile-nav">
-            <a href="<?= BASE_URL ?>/listings">
-                <i class="ph ph-buildings"></i> <?= __('nav_listings') ?>
+            <a href="<?= BASE_URL ?>">
+                <i class="ph ph-buildings"></i> <?= __('menu_real_estate') ?>
             </a>
-            <a href="<?= BASE_URL ?>/kobuleti">
-                <i class="ph ph-map-trifold"></i> <?= __('nav_kobuleti') ?>
+            <a href="<?= BASE_URL ?>/hotels">
+                <i class="ph ph-bed"></i> <?= __('menu_hotels') ?>
             </a>
-            <a href="<?= BASE_URL ?>/contact">
-                <i class="ph ph-envelope"></i> <?= __('nav_contact') ?>
+            <a href="<?= BASE_URL ?>/announcements">
+                <i class="ph ph-megaphone-simple"></i> <?= __('menu_announcements') ?>
+            </a>
+            <a href="<?= BASE_URL ?>/employment">
+                <i class="ph ph-briefcase"></i> <?= __('menu_employment') ?>
+            </a>
+            <a href="<?= BASE_URL ?>/education">
+                <i class="ph ph-graduation-cap"></i> <?= __('menu_education') ?>
+            </a>
+            <a href="<?= BASE_URL ?>/tourism">
+                <i class="ph ph-map-trifold"></i> <?= __('menu_tourism') ?>
             </a>
             
             <div class="divider"></div>

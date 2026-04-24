@@ -32,10 +32,14 @@ class PropertyController {
         $properties = $result['data'];
         $pagination = $result['pagination'];
         
-        SEO::set(
-            __('listings_title') . ' | ' . SITE_NAME,
-            __('hero_subtitle')
-        );
+        $seoTitle = __('listings_title');
+        $seoDescription = __('hero_subtitle');
+        if (($filters['type'] ?? '') === 'hotel_room') {
+            $seoTitle = __('menu_hotels');
+            $seoDescription = __('menu_hotels_subtitle');
+        }
+        
+        SEO::set($seoTitle . ' | ' . SITE_NAME, $seoDescription);
         
         $scripts = ['filters.js'];
         

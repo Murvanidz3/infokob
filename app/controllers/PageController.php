@@ -5,6 +5,15 @@
  */
 
 class PageController {
+    private function renderInfoPage(array $page): void {
+        SEO::set($page['title'] . ' | ' . SITE_NAME, $page['subtitle']);
+        
+        ob_start();
+        require VIEW_PATH . '/pages/info-page.php';
+        $content = ob_get_clean();
+        
+        require VIEW_PATH . '/layouts/main.php';
+    }
     
     public function kobuleti() {
         $db = Database::getInstance();
@@ -32,6 +41,90 @@ class PageController {
         $content = ob_get_clean();
         
         require VIEW_PATH . '/layouts/main.php';
+    }
+    
+    public function hotels() {
+        $_GET['type'] = 'hotel_room';
+        $_GET['sort'] = $_GET['sort'] ?? 'newest';
+        
+        SEO::set(__('menu_hotels') . ' | ' . SITE_NAME, __('menu_hotels_subtitle'));
+        (new PropertyController())->index();
+    }
+    
+    public function announcements() {
+        $page = [
+            'title' => __('menu_announcements'),
+            'subtitle' => __('menu_announcements_subtitle'),
+            'icon' => 'ph-megaphone-simple',
+            'items' => [
+                __('menu_announcements_item_1'),
+                __('menu_announcements_item_2'),
+                __('menu_announcements_item_3'),
+            ],
+            'primary_link' => Auth::isLoggedIn() ? BASE_URL . '/my/listings/create' : BASE_URL . '/login',
+            'primary_text' => __('menu_announcements_cta_primary'),
+            'secondary_link' => BASE_URL . '/listings',
+            'secondary_text' => __('menu_announcements_cta_secondary'),
+        ];
+        
+        $this->renderInfoPage($page);
+    }
+    
+    public function employment() {
+        $page = [
+            'title' => __('menu_employment'),
+            'subtitle' => __('menu_employment_subtitle'),
+            'icon' => 'ph-briefcase',
+            'items' => [
+                __('menu_employment_item_1'),
+                __('menu_employment_item_2'),
+                __('menu_employment_item_3'),
+            ],
+            'primary_link' => Auth::isLoggedIn() ? BASE_URL . '/my/listings/create' : BASE_URL . '/register',
+            'primary_text' => __('menu_employment_cta_primary'),
+            'secondary_link' => BASE_URL . '/contact',
+            'secondary_text' => __('menu_employment_cta_secondary'),
+        ];
+        
+        $this->renderInfoPage($page);
+    }
+    
+    public function education() {
+        $page = [
+            'title' => __('menu_education'),
+            'subtitle' => __('menu_education_subtitle'),
+            'icon' => 'ph-graduation-cap',
+            'items' => [
+                __('menu_education_item_1'),
+                __('menu_education_item_2'),
+                __('menu_education_item_3'),
+            ],
+            'primary_link' => BASE_URL . '/contact',
+            'primary_text' => __('menu_education_cta_primary'),
+            'secondary_link' => BASE_URL . '/kobuleti',
+            'secondary_text' => __('menu_education_cta_secondary'),
+        ];
+        
+        $this->renderInfoPage($page);
+    }
+    
+    public function tourism() {
+        $page = [
+            'title' => __('menu_tourism'),
+            'subtitle' => __('menu_tourism_subtitle'),
+            'icon' => 'ph-map-trifold',
+            'items' => [
+                __('menu_tourism_item_1'),
+                __('menu_tourism_item_2'),
+                __('menu_tourism_item_3'),
+            ],
+            'primary_link' => BASE_URL . '/contact',
+            'primary_text' => __('menu_tourism_cta_primary'),
+            'secondary_link' => BASE_URL . '/kobuleti',
+            'secondary_text' => __('menu_tourism_cta_secondary'),
+        ];
+        
+        $this->renderInfoPage($page);
     }
     
     public function sendContact() {
