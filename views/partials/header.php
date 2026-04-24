@@ -4,7 +4,8 @@ $langOptions = Language::getOptions();
 $currentLangLabel = $langOptions[$currentLang] ?? 'KA';
 ?>
 
-<header class="site-header" id="site-header" x-data="{ mobileOpen: false, langOpen: false, drawerLangOpen: false }" @keydown.escape.window="mobileOpen = false; langOpen = false; drawerLangOpen = false">
+<div class="site-header-mount" x-data="{ mobileOpen: false, langOpen: false, drawerLangOpen: false }" @keydown.escape.window="mobileOpen = false; langOpen = false; drawerLangOpen = false">
+<header class="site-header" id="site-header">
     <div class="header-inner">
         <!-- Logo -->
         <a href="<?= BASE_URL ?>" class="header-logo">
@@ -73,11 +74,11 @@ $currentLangLabel = $langOptions[$currentLang] ?? 'KA';
             </button>
         </div>
     </div>
-    
-    <!-- Mobile Overlay -->
+</header>
+
+    <!-- Outside header: avoids backdrop-filter clipping fixed drawer (mobile) -->
     <div class="mobile-overlay" :class="{ 'open': mobileOpen }" @click="mobileOpen = false"></div>
-    
-    <!-- Mobile Drawer -->
+
     <div class="mobile-drawer" :class="{ 'open': mobileOpen }">
         <div class="mobile-drawer-header">
             <a href="<?= BASE_URL ?>" class="header-logo">
@@ -154,4 +155,4 @@ $currentLangLabel = $langOptions[$currentLang] ?? 'KA';
             </div>
         </div>
     </div>
-</header>
+</div>

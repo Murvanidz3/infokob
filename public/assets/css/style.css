@@ -215,12 +215,18 @@ h4 { font-size: var(--font-size-lg); }
 .font-bold { font-weight: 700; }
 .font-semibold { font-weight: 600; }
 
+/* Wraps header + mobile menu layers; drawer/overlay are siblings of .site-header (not inside backdrop-filter). */
+.site-header-mount {
+    position: relative;
+    z-index: 1000;
+}
+
 .site-header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1;
     height: var(--header-height);
     background: rgba(10, 15, 26, 0.85); /* Deep midnight glass */
     backdrop-filter: blur(16px);
@@ -544,7 +550,7 @@ h4 { font-size: var(--font-size-lg); }
     align-self: flex-start;
 }
 
-/* Mobile Drawer */
+/* Mobile Drawer — above page content & header bar (must not be descendant of backdrop-filter header) */
 .mobile-drawer {
     position: fixed;
     top: 0;
@@ -553,7 +559,7 @@ h4 { font-size: var(--font-size-lg); }
     width: 300px;
     max-width: 85vw;
     background: var(--white);
-    z-index: 2000;
+    z-index: 10050;
     transform: translateX(100%);
     transition: transform 0.3s ease;
     box-shadow: var(--shadow-2xl);
@@ -569,7 +575,7 @@ h4 { font-size: var(--font-size-lg); }
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.5);
-    z-index: 1999;
+    z-index: 10040;
     opacity: 0;
     visibility: hidden;
     transition: var(--transition-slow);
@@ -828,6 +834,19 @@ h4 { font-size: var(--font-size-lg); }
     overflow: hidden;
     margin-top: calc(-1 * var(--header-height));
     padding-top: var(--header-height);
+}
+
+/* Mobile: vertical centering pulls headline under fixed header — anchor content below bar */
+@media (max-width: 1023px) {
+    .hero {
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: calc(var(--header-height) + var(--space-6));
+    }
+
+    .hero-content {
+        padding-top: var(--space-4);
+    }
 }
 
 .hero-bg {
