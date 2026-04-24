@@ -1,8 +1,5 @@
 <div class="auth-card">
     <div class="auth-header">
-        <a href="<?= BASE_URL ?>" class="header-logo">
-            <span>🌊</span> InfoKobuleti
-        </a>
         <h1><?= __('register_title') ?></h1>
     </div>
     
