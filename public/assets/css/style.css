@@ -1594,15 +1594,19 @@ select optgroup {
     align-items: center;
     justify-content: center;
     padding: var(--space-8) var(--space-4);
-    background: var(--bg);
+    background: linear-gradient(165deg, #070b13 0%, #0f172a 42%, #131a2b 100%);
 }
 
 .auth-card {
     width: 100%;
     max-width: 440px;
-    background: var(--white);
+    background: #ffffff;
+    color: #0f172a;
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.06),
+        0 25px 50px -12px rgba(0, 0, 0, 0.35);
     padding: var(--space-8) var(--space-6);
 }
 
@@ -1610,6 +1614,35 @@ select optgroup {
     .auth-card {
         padding: var(--space-10) var(--space-8);
     }
+}
+
+/* Light-surface overrides: global dark-theme typography would be unreadable on white */
+.auth-card .auth-header h1 {
+    color: #0f172a;
+}
+
+.auth-card .form-label {
+    color: #334155;
+}
+
+.auth-card .form-input,
+.auth-card .form-select,
+.auth-card .form-textarea {
+    color: #0f172a;
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.auth-card .form-input::placeholder,
+.auth-card .form-textarea::placeholder {
+    color: #94a3b8;
+}
+
+.auth-card .form-input:focus,
+.auth-card .form-select:focus,
+.auth-card .form-textarea:focus {
+    border-color: #ca8a04;
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.22);
 }
 
 .auth-header {
@@ -1620,6 +1653,7 @@ select optgroup {
 .auth-header .header-logo {
     justify-content: center;
     margin-bottom: var(--space-4);
+    color: #a16207;
 }
 
 .auth-header h1 {
@@ -1628,7 +1662,7 @@ select optgroup {
 }
 
 .auth-header p {
-    color: var(--muted);
+    color: #64748b;
     font-size: var(--font-size-sm);
 }
 
@@ -1636,13 +1670,18 @@ select optgroup {
     text-align: center;
     margin-top: var(--space-6);
     padding-top: var(--space-6);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #e2e8f0;
     font-size: var(--font-size-sm);
-    color: var(--muted);
+    color: #64748b;
 }
 
 .auth-footer a {
     font-weight: 600;
+    color: #a16207;
+}
+
+.auth-footer a:hover {
+    color: #854d0e;
 }
 
 /* ─── Flash Messages ────────────────────────────────────── */
