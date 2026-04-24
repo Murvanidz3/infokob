@@ -4,7 +4,7 @@
     <div class="header-inner">
         <!-- Logo -->
         <a href="<?= BASE_URL ?>" class="header-logo">
-            <span>🌊</span> InfoKobuleti
+            <span>🌊</span>
         </a>
         
         <!-- Desktop Nav -->
@@ -31,16 +31,6 @@
         
         <!-- Actions -->
         <div class="header-actions">
-            <!-- Language Switcher -->
-            <div class="lang-switcher">
-                <?php foreach ($langLabels as $code => $label): ?>
-                <a href="<?= BASE_URL ?>/lang/<?= $code ?>" 
-                   class="<?= $currentLang === $code ? 'active' : '' ?>">
-                    <?= $label ?>
-                </a>
-                <?php endforeach; ?>
-            </div>
-            
             <?php if (Auth::isLoggedIn()): ?>
                 <a href="<?= BASE_URL ?>/my/dashboard" class="btn btn-ghost btn-sm hide-mobile">
                     <i class="ph ph-user"></i>
@@ -57,6 +47,16 @@
                 <i class="ph ph-plus"></i>
                 <?= __('nav_add_listing') ?>
             </a>
+
+            <!-- Language Switcher -->
+            <div class="lang-switcher">
+                <?php foreach ($langLabels as $code => $label): ?>
+                <a href="<?= BASE_URL ?>/lang/<?= $code ?>" 
+                   class="<?= $currentLang === $code ? 'active' : '' ?>">
+                    <?= $label ?>
+                </a>
+                <?php endforeach; ?>
+            </div>
             
             <!-- Mobile Menu Toggle -->
             <button class="menu-toggle" @click="mobileOpen = true" aria-label="Menu">
@@ -72,7 +72,7 @@
     <div class="mobile-drawer" :class="{ 'open': mobileOpen }">
         <div class="mobile-drawer-header">
             <a href="<?= BASE_URL ?>" class="header-logo">
-                <span>🌊</span> InfoKobuleti
+                <span>🌊</span>
             </a>
             <button class="mobile-drawer-close" @click="mobileOpen = false">
                 <i class="ph ph-x"></i>
